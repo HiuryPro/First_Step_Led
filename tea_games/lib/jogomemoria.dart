@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 
@@ -11,38 +12,39 @@ class JogoMemoria extends StatefulWidget {
 
 class _JogoMemoriaState extends State<JogoMemoria> {
   List<GlobalObjectKey<FlipCardState>> cardKeys = [];
+  final audioPlayer = AudioPlayer();
   int _counter = 0;
   List cartas = [
-    "assets/frutas/abacate.png",
-    "assets/frutas/abacate.png",
-    "assets/frutas/abacaxi.png",
-    "assets/frutas/abacaxi.png",
-    "assets/frutas/acerola.png",
-    "assets/frutas/acerola.png",
-    "assets/frutas/banana.png",
-    "assets/frutas/banana.png",
-    "assets/frutas/blueberry.png",
-    "assets/frutas/blueberry.png",
-    "assets/frutas/cereja.png",
-    "assets/frutas/cereja.png",
-    "assets/frutas/kiwi.png",
-    "assets/frutas/kiwi.png",
-    "assets/frutas/laranja.png",
-    "assets/frutas/laranja.png",
-    "assets/frutas/limao.png",
-    "assets/frutas/limao.png",
-    "assets/frutas/melancia.png",
-    "assets/frutas/melancia.png",
-    "assets/frutas/morango.png",
-    "assets/frutas/morango.png",
-    "assets/frutas/pera.png",
-    "assets/frutas/pera.png",
-    "assets/frutas/pessego.png",
-    "assets/frutas/pessego.png",
-    "assets/frutas/roma.png",
-    "assets/frutas/roma.png",
-    "assets/frutas/uva.png",
-    "assets/frutas/uva.png",
+    "abacate",
+    "abacate",
+    "abacaxi",
+    "abacaxi",
+    "acerola",
+    "acerola",
+    "banana",
+    "banana",
+    "blueberry",
+    "blueberry",
+    "cereja",
+    "cereja",
+    "kiwi",
+    "kiwi",
+    "laranja",
+    "laranja",
+    "limao",
+    "limao",
+    "melancia",
+    "melancia",
+    "morango",
+    "morango",
+    "pera",
+    "pera",
+    "pessego",
+    "pessego",
+    "roma",
+    "roma",
+    "uva",
+    "uva",
   ];
 
   List<Color?> listaColor = [
@@ -80,10 +82,15 @@ class _JogoMemoriaState extends State<JogoMemoria> {
     } else if (segundaCartaSelecionada == -1) {
       segundaCartaSelecionada = index;
       if (cartas[primeiraCartaSelecionada] == cartas[segundaCartaSelecionada]) {
+        print(cartas[primeiraCartaSelecionada]);
+        var player = AudioCache(prefix: 'assets/sounds/frutas/');
+        var url = await player.load('${cartas[primeiraCartaSelecionada]}.mp3');
+        print(url);
         print('Pareou');
         setState(() {
           listaColor[segundaCartaSelecionada] = Colors.green;
         });
+        await audioPlayer.play(url.path);
       } else {
         print('Burro');
 
@@ -156,7 +163,8 @@ class _JogoMemoriaState extends State<JogoMemoria> {
                           child: Center(
                             child: IconButton(
                               iconSize: 70,
-                              icon: Image.asset(cartas[index]),
+                              icon: Image.asset(
+                                  'assets/images/frutas/${cartas[index]}.png'),
                               onPressed: null,
                             ),
                           ),
@@ -193,7 +201,7 @@ class _JogoMemoriaState extends State<JogoMemoria> {
                               color: listaColor[index],
                             ),
                             child: Image.asset(
-                              'assets/costasCarta.jpg',
+                              'assets/images/costasCarta.jpg',
                               fit: BoxFit.fill,
                             ),
                           ),
