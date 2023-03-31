@@ -37,7 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   flip_card: ^0.7.0
   http: ^0.13.5
-  audioplayers: ^0.20.1
+  just_audio: ^0.9.32
+  just_audio_background: ^0.0.1-beta.9
+  just_audio_windows: ^0.2.0
 
 dev_dependencies:
   flutter_test:

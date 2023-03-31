@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 
 class JogoPareamento extends StatefulWidget {
   const JogoPareamento({super.key, required this.title});
@@ -9,6 +10,7 @@ class JogoPareamento extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<JogoPareamento> {
+  final audioPlayer = AudioPlayer();
   int _counter = 0;
   List cartas = [
     "abacate",
@@ -57,17 +59,37 @@ class _MyHomePageState extends State<JogoPareamento> {
     null,
     null,
   ];
+  ElevatedButton button = ElevatedButton(
+    child: Text("Button"),
+    onPressed: () async {
+      while (true) {
+        AudioPlayer backgroundAudio = AudioPlayer();
+        await backgroundAudio.setAsset('assets/sounds/memoria.mp3',
+            initialPosition: Duration.zero);
+        await backgroundAudio.setVolume(0.3);
+        await backgroundAudio.setLoopMode(LoopMode.all);
+        await backgroundAudio.play();
+        Duration? duration = await backgroundAudio.durationFuture;
+        await Future.delayed(duration!);
+      }
+    },
+  );
+
   @override
   void initState() {
     super.initState();
     cartas.shuffle();
     listaColor = List.filled(cartas.length, null);
+
+    Future.delayed(Duration.zero, () async {
+      button.onPressed?.call();
+    });
   }
 
   int primeiraCartaSelecionada = -1;
   int segundaCartaSelecionada = -1;
 
-  void verificarPareamento(int index) async {
+  Future<void> verificarPareamento(int index) async {
     if (primeiraCartaSelecionada == -1) {
       primeiraCartaSelecionada = index;
       setState(() {
@@ -76,15 +98,28 @@ class _MyHomePageState extends State<JogoPareamento> {
     } else if (segundaCartaSelecionada == -1) {
       segundaCartaSelecionada = index;
       if (cartas[primeiraCartaSelecionada] == cartas[segundaCartaSelecionada]) {
+        print(cartas[primeiraCartaSelecionada]);
         print('Pareou');
         setState(() {
           listaColor[segundaCartaSelecionada] = Colors.green;
         });
+        await audioPlayer.setAsset(
+            'assets/sounds/frutas/${cartas[primeiraCartaSelecionada]}.mp3',
+            initialPosition: Duration.zero);
+        await audioPlayer.load();
+        await audioPlayer.play();
       } else {
         print('Burro');
-        listaColor[segundaCartaSelecionada] = Colors.red;
-        listaColor[primeiraCartaSelecionada] = Colors.red;
-        await Future.delayed(Duration(seconds: 2));
+        await audioPlayer.setAsset('assets/sounds/errou.mp3',
+            initialPosition: Duration.zero);
+        await audioPlayer.load();
+        await audioPlayer.play();
+        setState(() {
+          listaColor[segundaCartaSelecionada] = Colors.red;
+          listaColor[primeiraCartaSelecionada] = Colors.red;
+        });
+
+        await Future.delayed(const Duration(seconds: 2));
 
         setState(() {
           listaColor[segundaCartaSelecionada] = null;
@@ -161,7 +196,8 @@ class _MyHomePageState extends State<JogoPareamento> {
                           child: Center(
                             child: IconButton(
                               iconSize: 70,
-                              icon: Image.asset('assets/images/frutas/${cartas[index]}.png'),
+                              icon: Image.asset(
+                                  'assets/images/frutas/${cartas[index]}.png'),
                               onPressed: null,
                             ),
                           ),
@@ -181,11 +217,6 @@ class _MyHomePageState extends State<JogoPareamento> {
         title: Text(widget.title),
       ),
       body: body(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }

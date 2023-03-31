@@ -1,4 +1,4 @@
-import 'package:audioplayers/audioplayers.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +11,10 @@ class JogoMemoria extends StatefulWidget {
 }
 
 class _JogoMemoriaState extends State<JogoMemoria> {
+  bool visivel = true;
   List<GlobalObjectKey<FlipCardState>> cardKeys = [];
+  final GlobalKey<ScaffoldState> buttonkeyS = GlobalKey();
+  GlobalKey keyButton = GlobalKey();
   final audioPlayer = AudioPlayer();
   int _counter = 0;
   List cartas = [
@@ -61,6 +64,20 @@ class _JogoMemoriaState extends State<JogoMemoria> {
     null,
     null,
   ];
+
+  ElevatedButton button = ElevatedButton(
+    child: Text("Button"),
+    onPressed: () async {
+      AudioPlayer backgroundAudio = AudioPlayer();
+      ;
+      await backgroundAudio.setAsset('assets/sounds/memoria.mp3',
+          initialPosition: Duration.zero);
+      await backgroundAudio.setVolume(0.3);
+      await backgroundAudio.setLoopMode(LoopMode.one);
+      await backgroundAudio.play();
+    },
+  );
+
   @override
   void initState() {
     super.initState();
@@ -68,12 +85,16 @@ class _JogoMemoriaState extends State<JogoMemoria> {
     listaColor = List.filled(cartas.length, null);
     cardKeys = List.generate(
         cartas.length, (index) => GlobalObjectKey<FlipCardState>(index));
+
+    Future.delayed(Duration.zero, () async {
+      button.onPressed?.call();
+    });
   }
 
   int primeiraCartaSelecionada = -1;
   int segundaCartaSelecionada = -1;
 
-  void verificarPareamento(int index) async {
+  Future<void> verificarPareamento(int index) async {
     if (primeiraCartaSelecionada == -1) {
       primeiraCartaSelecionada = index;
       setState(() {
@@ -83,19 +104,26 @@ class _JogoMemoriaState extends State<JogoMemoria> {
       segundaCartaSelecionada = index;
       if (cartas[primeiraCartaSelecionada] == cartas[segundaCartaSelecionada]) {
         print(cartas[primeiraCartaSelecionada]);
-        var player = AudioCache(prefix: 'assets/sounds/frutas/');
-        var url = await player.load('${cartas[primeiraCartaSelecionada]}.mp3');
-        print(url);
         print('Pareou');
         setState(() {
           listaColor[segundaCartaSelecionada] = Colors.green;
         });
-        await audioPlayer.play(url.path);
+        await audioPlayer.setAsset(
+            'assets/sounds/frutas/${cartas[primeiraCartaSelecionada]}.mp3',
+            initialPosition: Duration.zero);
+        await audioPlayer.load();
+        await audioPlayer.play();
       } else {
         print('Burro');
+        await audioPlayer.setAsset('assets/sounds/errou.mp3',
+            initialPosition: Duration.zero);
+        await audioPlayer.load();
+        await audioPlayer.play();
+        setState(() {
+          listaColor[segundaCartaSelecionada] = Colors.red;
+          listaColor[primeiraCartaSelecionada] = Colors.red;
+        });
 
-        listaColor[segundaCartaSelecionada] = Colors.red;
-        listaColor[primeiraCartaSelecionada] = Colors.red;
         await Future.delayed(const Duration(seconds: 2));
 
         await cardKeys[segundaCartaSelecionada].currentState!.toggleCard();
@@ -177,7 +205,7 @@ class _JogoMemoriaState extends State<JogoMemoria> {
                                 await cardKeys[index]
                                     .currentState!
                                     .toggleCard();
-                                verificarPareamento(index);
+                                await verificarPareamento(index);
                                 setState(() {});
                               }
 
@@ -223,7 +251,7 @@ class _JogoMemoriaState extends State<JogoMemoria> {
                         await cardKeys[i].currentState!.toggleCard();
                       }
                     },
-                    child: const Text('Começar'))
+                    child: const Text('Começar')),
               ],
             )));
   }
@@ -235,11 +263,6 @@ class _JogoMemoriaState extends State<JogoMemoria> {
         title: Text(widget.title),
       ),
       body: body(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }
