@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 
 class AppController extends ChangeNotifier {
   static AppController instance = AppController();
-
+  AudioPlayer backgroundAudio = AudioPlayer();
   bool isDarkTheme = false;
   String background = "assets/images/back2.jpg";
   String logo = "assets/images/Stocker_blue_transpN.png";
   Color theme1 = Colors.black;
   Color theme2 = const Color(0xFF0080d9);
-
 
   int loginAntigo = 0;
   String nomeNS = "";
@@ -29,5 +29,4 @@ class AppController extends ChangeNotifier {
     }
     notifyListeners();
   }
-
 }
