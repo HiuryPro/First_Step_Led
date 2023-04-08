@@ -2,6 +2,8 @@ import 'package:just_audio/just_audio.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 
+import '../app_controller.dart';
+
 class JogoMemoriaFase3 extends StatefulWidget {
   const JogoMemoriaFase3({super.key, required this.title});
   final String title;
@@ -36,19 +38,6 @@ class _JogoMemoriaFase3State extends State<JogoMemoriaFase3> {
     null,
   ];
 
-  ElevatedButton button = ElevatedButton(
-    child: Text("Button"),
-    onPressed: () async {
-      AudioPlayer backgroundAudio = AudioPlayer();
-      ;
-      await backgroundAudio.setAsset('assets/sounds/memoria.mp3',
-          initialPosition: Duration.zero);
-      await backgroundAudio.setVolume(0.3);
-      await backgroundAudio.setLoopMode(LoopMode.one);
-      await backgroundAudio.play();
-    },
-  );
-
   @override
   void initState() {
     super.initState();
@@ -56,10 +45,6 @@ class _JogoMemoriaFase3State extends State<JogoMemoriaFase3> {
     listaColor = List.filled(cartas.length, null);
     cardKeys = List.generate(
         cartas.length, (index) => GlobalObjectKey<FlipCardState>(index));
-
-    Future.delayed(Duration.zero, () async {
-      button.onPressed?.call();
-    });
   }
 
   int primeiraCartaSelecionada = -1;
@@ -79,17 +64,11 @@ class _JogoMemoriaFase3State extends State<JogoMemoriaFase3> {
         setState(() {
           listaColor[segundaCartaSelecionada] = Colors.green;
         });
-        await audioPlayer.setAsset(
-            'assets/sounds/frutas/${cartas[primeiraCartaSelecionada]}.mp3',
-            initialPosition: Duration.zero);
-        await audioPlayer.load();
-        await audioPlayer.play();
+        await AppController.instance
+            .respostaFruta('frutas/${cartas[primeiraCartaSelecionada]}.mp3');
       } else {
         print('Burro');
-        await audioPlayer.setAsset('assets/sounds/errou.mp3',
-            initialPosition: Duration.zero);
-        await audioPlayer.load();
-        await audioPlayer.play();
+        await AppController.instance.respostaFruta('errou.mp3');
         setState(() {
           listaColor[segundaCartaSelecionada] = Colors.red;
           listaColor[primeiraCartaSelecionada] = Colors.red;

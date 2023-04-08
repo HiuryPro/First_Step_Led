@@ -35,32 +35,11 @@ class _MyHomePageState extends State<JogoPareamentoFase1> {
     null,
   ];
 
-  ElevatedButton button = ElevatedButton(
-    child: Text("Button"),
-    onPressed: () async {
-      while (true) {
-        await AppController.instance.backgroundAudio.setAsset(
-            'assets/sounds/memoria.mp3',
-            initialPosition: Duration.zero);
-        await AppController.instance.backgroundAudio.setVolume(0.3);
-        await AppController.instance.backgroundAudio.setLoopMode(LoopMode.all);
-        await AppController.instance.backgroundAudio.play();
-        Duration? duration =
-            await AppController.instance.backgroundAudio.durationFuture;
-        await Future.delayed(duration!);
-      }
-    },
-  );
-
   @override
   void initState() {
     super.initState();
     cartas.shuffle();
     listaColor = List.filled(cartas.length, null);
-
-    Future.delayed(Duration.zero, () async {
-      button.onPressed?.call();
-    });
   }
 
   int primeiraCartaSelecionada = -1;
@@ -77,20 +56,15 @@ class _MyHomePageState extends State<JogoPareamentoFase1> {
       if (cartas[primeiraCartaSelecionada] == cartas[segundaCartaSelecionada]) {
         print(cartas[primeiraCartaSelecionada]);
         print('Pareou');
+        await AppController.instance
+            .respostaFruta('frutas/${cartas[primeiraCartaSelecionada]}.mp3');
         setState(() {
           listaColor[segundaCartaSelecionada] = Colors.green;
         });
-        await audioPlayer.setAsset(
-            'assets/sounds/frutas/${cartas[primeiraCartaSelecionada]}.mp3',
-            initialPosition: Duration.zero);
-        await audioPlayer.load();
-        await audioPlayer.play();
       } else {
         print('Burro');
-        await audioPlayer.setAsset('assets/sounds/errou.mp3',
-            initialPosition: Duration.zero);
-        await audioPlayer.load();
-        await audioPlayer.play();
+        await AppController.instance.respostaFruta('errou.mp3');
+
         setState(() {
           listaColor[segundaCartaSelecionada] = Colors.red;
           listaColor[primeiraCartaSelecionada] = Colors.red;
@@ -158,8 +132,6 @@ class _MyHomePageState extends State<JogoPareamentoFase1> {
                               }
 
                               await Future.delayed(Duration(seconds: 1));
-                              await AppController.instance.backgroundAudio
-                                  .stop();
                               Navigator.of(context)
                                   .pushNamed("/pareamentoFase${fase + 1}");
                             }

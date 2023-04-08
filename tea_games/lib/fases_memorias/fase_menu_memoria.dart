@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../app_controller.dart';
+
 class MenuFaseMemoria extends StatefulWidget {
   const MenuFaseMemoria({super.key});
 
@@ -8,6 +10,15 @@ class MenuFaseMemoria extends StatefulWidget {
 }
 
 class _MenuFaseMemoriaState extends State<MenuFaseMemoria> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration.zero, () async {
+      await AppController.instance.backgroundMusic('memoria');
+    });
+  }
+
   Widget body() {
     return SizedBox(
         height: MediaQuery.of(context).size.height,

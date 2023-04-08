@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../app_controller.dart';
+
 class MenuFasePareamento extends StatefulWidget {
   const MenuFasePareamento({super.key});
 
@@ -8,6 +10,15 @@ class MenuFasePareamento extends StatefulWidget {
 }
 
 class _MenuFasePareamentoState extends State<MenuFasePareamento> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration.zero, () async {
+      await AppController.instance.backgroundMusic('pareamento');
+    });
+  }
+
   Widget body() {
     return SizedBox(
         height: MediaQuery.of(context).size.height,

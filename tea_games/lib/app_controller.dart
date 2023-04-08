@@ -4,6 +4,7 @@ import 'package:just_audio/just_audio.dart';
 class AppController extends ChangeNotifier {
   static AppController instance = AppController();
   AudioPlayer backgroundAudio = AudioPlayer();
+  AudioPlayer audioPlayer = AudioPlayer();
   bool isDarkTheme = false;
   String background = "assets/images/back2.jpg";
   String logo = "assets/images/Stocker_blue_transpN.png";
@@ -13,6 +14,7 @@ class AppController extends ChangeNotifier {
   int loginAntigo = 0;
   String nomeNS = "";
   bool alteraTela = true;
+  String musicaAtual = "";
 
   changeTheme() {
     isDarkTheme = !isDarkTheme;
@@ -28,5 +30,22 @@ class AppController extends ChangeNotifier {
       theme2 = const Color(0xFF0080d9);
     }
     notifyListeners();
+  }
+
+  Future<void> backgroundMusic(String musica) async {
+    await backgroundAudio.stop();
+    await backgroundAudio.setAsset('assets/sounds/$musica.mp3',
+        initialPosition: Duration.zero);
+    await backgroundAudio.setLoopMode(LoopMode.one);
+    await backgroundAudio.setVolume(0.15);
+    await backgroundAudio.play();
+  }
+
+  Future<void> respostaFruta(String resposta) async {
+    await audioPlayer.setAsset('assets/sounds/$resposta',
+        initialPosition: Duration.zero);
+    await audioPlayer.setVolume(2.0);
+    await audioPlayer.load();
+    await audioPlayer.play();
   }
 }

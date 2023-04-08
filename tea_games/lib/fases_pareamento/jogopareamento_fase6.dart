@@ -106,17 +106,11 @@ class _MyHomePageState extends State<JogoPareamentoFase6> {
         setState(() {
           listaColor[segundaCartaSelecionada] = Colors.green;
         });
-        await audioPlayer.setAsset(
-            'assets/sounds/frutas/${cartas[primeiraCartaSelecionada]}.mp3',
-            initialPosition: Duration.zero);
-        await audioPlayer.load();
-        await audioPlayer.play();
+        await AppController.instance
+            .respostaFruta('frutas/${cartas[primeiraCartaSelecionada]}.mp3');
       } else {
         print('Burro');
-        await audioPlayer.setAsset('assets/sounds/errou.mp3',
-            initialPosition: Duration.zero);
-        await audioPlayer.load();
-        await audioPlayer.play();
+        await AppController.instance.respostaFruta('errou.mp3');
         setState(() {
           listaColor[segundaCartaSelecionada] = Colors.red;
           listaColor[primeiraCartaSelecionada] = Colors.red;
@@ -184,8 +178,7 @@ class _MyHomePageState extends State<JogoPareamentoFase6> {
                               }
 
                               await Future.delayed(Duration(seconds: 1));
-                              await AppController.instance.backgroundAudio
-                                  .stop();
+
                               Navigator.of(context)
                                   .pushNamed("/fasemenupareamento");
                             }
