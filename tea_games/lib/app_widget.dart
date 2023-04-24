@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tea_games/fases_memorias/fase_menu_memoria.dart';
+import 'package:tea_games/home.dart';
+import 'package:tea_games/jogocalcular.dart';
 import 'package:tea_games/jogomemoria.dart';
+import 'package:tea_games/letras.dart';
+import 'package:tea_games/testetts.dart';
 
 import 'fases_memorias/jogomemoria_fase1.dart';
 import 'fases_memorias/jogomemoria_fase2.dart';
@@ -28,8 +32,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/fasemenupareamento',
+      initialRoute: '/tts',
       routes: {
+        '/home': (context) => const Home(),
         '/pareamento': (context) =>
             const JogoPareamento(title: 'Flutter Demo Home Page'),
         '/memoriaFase1': (context) => const JogoMemoriaFase1(title: 'Teste'),
@@ -51,7 +56,10 @@ class MyApp extends StatelessWidget {
             const JogoPareamentoFase5(title: 'Teste'),
         '/pareamentoFase6': (context) =>
             const JogoPareamentoFase6(title: 'Teste'),
-        '/fasemenupareamento': (context) => const MenuFasePareamento()
+        '/fasemenupareamento': (context) => const MenuFasePareamento(),
+        '/jogocalcular': (context) => const JogoCalcular(title: 're'),
+        '/letras': (context) => const Letras(title: 're'),
+        '/tts': (context) => const Testetts()
       },
     );
   }

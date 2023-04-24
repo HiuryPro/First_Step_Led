@@ -14,63 +14,25 @@ class _HomeState extends State<Home> {
       width: MediaQuery.of(context).size.width,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                        onPressed: () {}, child: const Text('Um jogo')),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                        onPressed: () {}, child: const Text('Um jogo')),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                        onPressed: () {}, child: const Text('Um jogo')),
-                  ),
-                ],
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/fasemenumemoria');
+                  },
+                  child: const Text("Menu do Jogo da Memória")),
+              const SizedBox(
+                height: 15,
               ),
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                        onPressed: () {}, child: const Text('Um jogo')),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                        onPressed: () {}, child: const Text('Um jogo')),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                        onPressed: () {}, child: const Text('Um jogo')),
-                  ),
-                ],
-              ),
-            ),
-          ],
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/fasemenupareamento');
+                  },
+                  child: const Text("Menu do Jogo de Pareamento")),
+            ],
+          ),
         ),
       ),
     );

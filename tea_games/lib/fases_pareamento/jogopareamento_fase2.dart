@@ -126,8 +126,9 @@ class _MyHomePageState extends State<JogoPareamentoFase2> {
                               verificarPareamento(index);
                               setState(() {});
                             }
-
+                     
                             if (!listaColor.contains(null)) {
+                             
                               for (var i = 0; i < 3; i++) {
                                 await piscaImagens();
                               }

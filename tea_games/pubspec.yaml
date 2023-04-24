@@ -40,6 +40,7 @@ dependencies:
   just_audio: ^0.9.32
   just_audio_background: ^0.0.1-beta.9
   just_audio_windows: ^0.2.0
+  flutter_tts: ^3.6.3
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +70,7 @@ flutter:
     - assets/images/
     - assets/sounds/frutas/
     - assets/sounds/
+    - assets/numeros/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

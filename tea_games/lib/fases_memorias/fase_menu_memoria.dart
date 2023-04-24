@@ -106,6 +106,15 @@ class _MenuFaseMemoriaState extends State<MenuFaseMemoria> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: body());
+    return Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed('/home');
+            },
+            icon: Icon(Icons.arrow_back),
+          ),
+        ),
+        body: body());
   }
 }

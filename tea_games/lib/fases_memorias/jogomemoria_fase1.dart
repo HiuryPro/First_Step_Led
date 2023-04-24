@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:just_audio/just_audio.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +18,6 @@ class _JogoMemoriaFase1State extends State<JogoMemoriaFase1> {
   bool visivel = true;
   int fase = 1;
   List<GlobalObjectKey<FlipCardState>> cardKeys = [];
-  final GlobalKey<ScaffoldState> buttonkeyS = GlobalKey();
-  GlobalKey keyButton = GlobalKey();
   final audioPlayer = AudioPlayer();
   int _counter = 0;
   List cartas = [
@@ -35,8 +35,11 @@ class _JogoMemoriaFase1State extends State<JogoMemoriaFase1> {
     super.initState();
     cartas.shuffle();
     listaColor = List.filled(cartas.length, null);
-    cardKeys = List.generate(
-        cartas.length, (index) => GlobalObjectKey<FlipCardState>(index));
+    for (int i = 0; i < cartas.length; i++) {
+      var random = Random();
+      var randomNumber = random.nextInt(10000);
+      cardKeys.add(GlobalObjectKey<FlipCardState>(randomNumber));
+    }
   }
 
   int primeiraCartaSelecionada = -1;
@@ -114,8 +117,8 @@ class _JogoMemoriaFase1State extends State<JogoMemoriaFase1> {
                     itemCount: cartas.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                            mainAxisSpacing: 5,
-                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 20,
+                            crossAxisSpacing: 20,
                             crossAxisCount: 10),
                     itemBuilder: (BuildContext context, int index) {
                       return FlipCard(

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:just_audio/just_audio.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +17,7 @@ class JogoMemoriaFase2 extends StatefulWidget {
 class _JogoMemoriaFase2State extends State<JogoMemoriaFase2> {
   bool visivel = true;
   int fase = 2;
-  List<GlobalObjectKey<FlipCardState>> cardKeys = [];
+  List<GlobalObjectKey<FlipCardState>> cardKeys2 = [];
   final GlobalKey<ScaffoldState> buttonkeyS = GlobalKey();
   GlobalKey keyButton = GlobalKey();
   final audioPlayer = AudioPlayer();
@@ -39,8 +41,11 @@ class _JogoMemoriaFase2State extends State<JogoMemoriaFase2> {
     super.initState();
     cartas.shuffle();
     listaColor = List.filled(cartas.length, null);
-    cardKeys = List.generate(
-        cartas.length, (index) => GlobalObjectKey<FlipCardState>(index));
+    for (int i = 0; i < cartas.length; i++) {
+      var random = Random();
+      var randomNumber = random.nextInt(10000);
+      cardKeys2.add(GlobalObjectKey<FlipCardState>(randomNumber));
+    }
   }
 
   int primeiraCartaSelecionada = -1;
@@ -72,8 +77,8 @@ class _JogoMemoriaFase2State extends State<JogoMemoriaFase2> {
 
         await Future.delayed(const Duration(seconds: 2));
 
-        await cardKeys[segundaCartaSelecionada].currentState!.toggleCard();
-        await cardKeys[primeiraCartaSelecionada].currentState!.toggleCard();
+        await cardKeys2[segundaCartaSelecionada].currentState!.toggleCard();
+        await cardKeys2[primeiraCartaSelecionada].currentState!.toggleCard();
 
         setState(() {
           listaColor[segundaCartaSelecionada] = null;
@@ -118,13 +123,13 @@ class _JogoMemoriaFase2State extends State<JogoMemoriaFase2> {
                     itemCount: cartas.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                            mainAxisSpacing: 5,
-                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 20,
+                            crossAxisSpacing: 20,
                             crossAxisCount: 10),
                     itemBuilder: (BuildContext context, int index) {
                       return FlipCard(
                         flipOnTouch: false,
-                        key: cardKeys[index],
+                        key: cardKeys2[index],
                         fill: Fill
                             .fillBack, // Fill the back side of the card to make in the same size as the front.
                         direction: FlipDirection.HORIZONTAL, // default
@@ -148,7 +153,7 @@ class _JogoMemoriaFase2State extends State<JogoMemoriaFase2> {
                             if (primeiraCartaSelecionada == -1 ||
                                 segundaCartaSelecionada == -1) {
                               if (listaColor[index] == null) {
-                                await cardKeys[index]
+                                await cardKeys2[index]
                                     .currentState!
                                     .toggleCard();
                                 await verificarPareamento(index);
@@ -161,8 +166,9 @@ class _JogoMemoriaFase2State extends State<JogoMemoriaFase2> {
                                 }
 
                                 await Future.delayed(Duration(seconds: 1));
-                                Navigator.of(context)
-                                    .pushNamed("/memoriaFase${fase + 1}");
+                                cardKeys2.clear();
+                                Navigator.of(context).pushReplacementNamed(
+                                    "/memoriaFase${fase + 1}");
                               }
                             }
                           },
@@ -190,8 +196,8 @@ class _JogoMemoriaFase2State extends State<JogoMemoriaFase2> {
                         cartas.shuffle();
                       });
                       await Future.delayed(const Duration(seconds: 2));
-                      for (int i = 0; i < cardKeys.length; i++) {
-                        await cardKeys[i].currentState!.toggleCard();
+                      for (int i = 0; i < cardKeys2.length; i++) {
+                        await cardKeys2[i].currentState!.toggleCard();
                       }
                     },
                     child: const Text('Começar')),

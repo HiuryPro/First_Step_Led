@@ -23,16 +23,6 @@ class _MyHomePageState extends State<JogoPareamentoFase1> {
   List<Color?> listaColor = [
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
   ];
 
   @override
@@ -56,11 +46,16 @@ class _MyHomePageState extends State<JogoPareamentoFase1> {
       if (cartas[primeiraCartaSelecionada] == cartas[segundaCartaSelecionada]) {
         print(cartas[primeiraCartaSelecionada]);
         print('Pareou');
-        await AppController.instance
-            .respostaFruta('frutas/${cartas[primeiraCartaSelecionada]}.mp3');
         setState(() {
           listaColor[segundaCartaSelecionada] = Colors.green;
+          print(index);
         });
+        setState(() {
+          listaColor[segundaCartaSelecionada] = Colors.green;
+          print(index);
+        });
+        await AppController.instance
+            .respostaFruta('frutas/${cartas[primeiraCartaSelecionada]}.mp3');
       } else {
         print('Burro');
         await AppController.instance.respostaFruta('errou.mp3');
@@ -119,14 +114,17 @@ class _MyHomePageState extends State<JogoPareamentoFase1> {
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
                         onTap: () async {
+                          print(index);
                           if (primeiraCartaSelecionada == -1 ||
                               segundaCartaSelecionada == -1) {
                             if (listaColor[index] == null) {
-                              verificarPareamento(index);
-                              setState(() {});
+                              setState(() {
+                                verificarPareamento(index);
+                              });
                             }
-
+                            print(listaColor);
                             if (!listaColor.contains(null)) {
+                              print('Nfsdf');
                               for (var i = 0; i < 3; i++) {
                                 await piscaImagens();
                               }
