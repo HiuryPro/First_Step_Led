@@ -1,7 +1,7 @@
 <?php
 
 
-$banco = 'stocker';
+$banco = 'teagames';
 $host = 'localhost';
 $usuario = 'root';
 $senha = '';

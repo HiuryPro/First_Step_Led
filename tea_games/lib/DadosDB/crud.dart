@@ -6,7 +6,7 @@ class CRUD {
 
   select(String query) async {
     dynamic body;
-    var url = Uri.parse("http://$ip/ConexaoDBStocker/Select.php");
+    var url = Uri.parse("http://$ip/ConexaoTEAGAMES/Select.php");
     http.Response response = await http.post(url, body: {'query': query});
     body = jsonDecode(response.body);
 
@@ -14,17 +14,17 @@ class CRUD {
   }
 
   insert(String query, List<String> lista) async {
-    var url = Uri.parse("http://$ip/ConexaoDBStocker/Insert.php");
+    var url = Uri.parse("http://$ip/ConexaoTEAGAMES/Insert.php");
     await http.post(url, body: {'query': query, 'lista': jsonEncode(lista)});
   }
 
   update(String query, List<dynamic> lista) async {
-    var url = Uri.parse("http://$ip/ConexaoDBStocker/Update.php");
+    var url = Uri.parse("http://$ip/ConexaoTEAGAMES/Update.php");
     await http.post(url, body: {'query': query, 'lista': jsonEncode(lista)});
   }
 
   delete(String query) async {
-    var url = Uri.parse("http://$ip/ConexaoDBStocker/Select.php");
+    var url = Uri.parse("http://$ip/ConexaoTEAGAMES/Select.php");
     await http.post(url, body: {'query': query});
   }
 }
