@@ -11,13 +11,12 @@ class AppController extends ChangeNotifier {
   String logo = "assets/images/Stocker_blue_transpN.png";
   Color theme1 = Colors.black;
   Color theme2 = const Color(0xFF0080d9);
-  List<GlobalObjectKey<FlipCardState>> cardKeys = [];
 
-  criaCartasState() {
-    cardKeys =
-        List.generate(15, (index) => GlobalObjectKey<FlipCardState>(index));
-    notifyListeners();
-  }
+  String email = '';
+  String senha = '';
+  String nome = '';
+
+  int incrementaCarta = 0;
 
   int loginAntigo = 0;
   String nomeNS = "";

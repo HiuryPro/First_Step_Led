@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
-import '../app_controller.dart';
+import '../Auxiliadores/app_controller.dart';
 
 class JogoPareamentoFase1 extends StatefulWidget {
   const JogoPareamentoFase1({super.key, required this.title});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
-import '../app_controller.dart';
+import '../Auxiliadores/app_controller.dart';
 
 class JogoPareamentoFase2 extends StatefulWidget {
   const JogoPareamentoFase2({super.key, required this.title});
@@ -126,9 +126,8 @@ class _MyHomePageState extends State<JogoPareamentoFase2> {
                               verificarPareamento(index);
                               setState(() {});
                             }
-                     
+
                             if (!listaColor.contains(null)) {
-                             
                               for (var i = 0; i < 3; i++) {
                                 await piscaImagens();
                               }

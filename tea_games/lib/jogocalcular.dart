@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:tea_games/textoprafala.dart';
+import 'package:tea_games/Auxiliadores/textoprafala.dart';
 
 class JogoCalcular extends StatefulWidget {
   const JogoCalcular({super.key, required this.title});
@@ -13,6 +13,7 @@ class JogoCalcular extends StatefulWidget {
 class _MyHomePageState extends State<JogoCalcular> {
   int acceptedData = 0;
   final audioPlayer = AudioPlayer();
+  int escolha = 0;
   int _counter = 0;
   List cartas = [
     '1',
@@ -35,6 +36,7 @@ class _MyHomePageState extends State<JogoCalcular> {
   String? operador;
   String? num2;
   int? conta;
+  int? resto;
 
   ElevatedButton button = ElevatedButton(
     child: const Text("Button"),
@@ -82,6 +84,7 @@ class _MyHomePageState extends State<JogoCalcular> {
         setState(() {
           try {
             conta = int.parse(num1!) ~/ int.parse(num2!);
+            resto = int.parse(num1!) % int.parse(num2!);
           } catch (e) {}
         });
       }
@@ -130,7 +133,13 @@ class _MyHomePageState extends State<JogoCalcular> {
                         setState(() {
                           num1 = data;
                         });
-                        await Fala.instance.flutterTts.speak(data);
+                        if (escolha == 0) {
+                          await Fala.instance.flutterTts.speak(data);
+                          escolha = 1;
+                        } else {
+                          await Fala.instance2.flutterTts.speak(data);
+                          escolha = 0;
+                        }
 
                         fazerConta();
                       }
@@ -148,7 +157,7 @@ class _MyHomePageState extends State<JogoCalcular> {
                       return Container(
                         height: 100.0,
                         width: 100.0,
-                        color: Colors.lightGreenAccent,
+                        color: Colors.blue,
                         child: Center(
                             child: operador == null
                                 ? null
@@ -165,14 +174,32 @@ class _MyHomePageState extends State<JogoCalcular> {
                         });
                         print(data);
                         if (data == '*') {
-                          await Fala.instance.flutterTts.speak('vezes');
+                          if (escolha == 0) {
+                            await Fala.instance.flutterTts.speak('vezes');
+                            escolha = 1;
+                          } else {
+                            await Fala.instance2.flutterTts.speak('vezes');
+                            escolha = 0;
+                          }
                         } else if (data == '-') {
-                          await Fala.instance.flutterTts.speak('menos');
+                          if (escolha == 0) {
+                            await Fala.instance.flutterTts.speak('menos');
+                            escolha = 1;
+                          } else {
+                            await Fala.instance2.flutterTts.speak('menos');
+                            escolha = 0;
+                          }
                         } else {
-                          await Fala.instance.flutterTts.speak(data);
+                          if (escolha == 0) {
+                            await Fala.instance.flutterTts.speak(data);
+                            escolha = 1;
+                          } else {
+                            await Fala.instance2.flutterTts.speak(data);
+                            escolha = 0;
+                          }
                         }
 
-                        await Future.delayed(Duration(seconds: 1));
+                        await Future.delayed(const Duration(seconds: 1));
                         fazerConta();
                       }
                     },
@@ -203,7 +230,13 @@ class _MyHomePageState extends State<JogoCalcular> {
                         setState(() {
                           num2 = data;
                         });
-                        await Fala.instance.flutterTts.speak(data);
+                        if (escolha == 0) {
+                          await Fala.instance.flutterTts.speak(data);
+                          escolha = 1;
+                        } else {
+                          await Fala.instance2.flutterTts.speak(data);
+                          escolha = 0;
+                        }
 
                         fazerConta();
                       }
@@ -232,7 +265,33 @@ class _MyHomePageState extends State<JogoCalcular> {
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 25),
                         ),
-                      ))
+                      )),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  if (operador == '÷')
+                    Row(
+                      children: [
+                        const Text(
+                          "Resto",
+                          style: TextStyle(fontSize: 25),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                            height: 100.0,
+                            width: 100.0,
+                            color: Colors.lightGreenAccent,
+                            child: Center(
+                              child: Text(
+                                conta == null ? '' : '$resto',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 25),
+                              ),
+                            )),
+                      ],
+                    )
                 ],
               ),
               const SizedBox(
@@ -241,145 +300,32 @@ class _MyHomePageState extends State<JogoCalcular> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  for (int i = 0; i <= 3; i++)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 3, bottom: 3),
-                      child: Draggable(
-                        // Data is the value this Draggable stores.
-                        data: cartas[i],
-                        feedback: Container(
-                          color: Colors.green,
-                          height: 100,
-                          width: 100,
-                          child: Center(
-                              child: ImageIcon(AssetImage(
-                                  'assets/numeros/${cartas[i]}.png'))),
-                        ),
-                        childWhenDragging: Container(
-                          height: 100.0,
-                          width: 100.0,
-                          child: Center(
-                              child: ImageIcon(AssetImage(
-                                  'assets/numeros/${cartas[i]}.png'))),
-                        ),
-                        child: Container(
-                          height: 100.0,
-                          width: 100.0,
-                          color: Colors.lightGreenAccent,
-                          child: Center(
-                              child: ImageIcon(AssetImage(
-                                  'assets/numeros/${cartas[i]}.png'))),
-                        ),
-                      ),
-                    ),
+                  for (int i = 0; i <= 2; i++)
+                    ButaoConta(posicao: i, color: Colors.lightGreenAccent),
+                  ButaoConta(posicao: 3, color: Colors.blue)
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  for (int i = 4; i <= 7; i++)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 3, bottom: 3),
-                      child: Draggable(
-                        // Data is the value this Draggable stores.
-                        data: cartas[i],
-                        feedback: Container(
-                          color: Colors.green,
-                          height: 100,
-                          width: 100,
-                          child: Center(
-                              child: ImageIcon(AssetImage(
-                                  'assets/numeros/${cartas[i]}.png'))),
-                        ),
-                        childWhenDragging: Container(
-                          height: 100.0,
-                          width: 100.0,
-                          child: Center(
-                              child: ImageIcon(AssetImage(
-                                  'assets/numeros/${cartas[i]}.png'))),
-                        ),
-                        child: Container(
-                          height: 100.0,
-                          width: 100.0,
-                          color: Colors.lightGreenAccent,
-                          child: Center(
-                              child: ImageIcon(AssetImage(
-                                  'assets/numeros/${cartas[i]}.png'))),
-                        ),
-                      ),
-                    ),
+                  for (int i = 4; i <= 6; i++)
+                    ButaoConta(posicao: i, color: Colors.lightGreenAccent),
+                  ButaoConta(posicao: 7, color: Colors.blue)
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  for (int i = 8; i <= 11; i++)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 3, bottom: 3),
-                      child: Draggable(
-                        // Data is the value this Draggable stores.
-                        data: cartas[i],
-                        feedback: Container(
-                          color: Colors.green,
-                          height: 100,
-                          width: 100,
-                          child: Center(
-                              child: ImageIcon(AssetImage(
-                                  'assets/numeros/${cartas[i]}.png'))),
-                        ),
-                        childWhenDragging: Container(
-                          height: 100.0,
-                          width: 100.0,
-                          child: Center(
-                              child: ImageIcon(AssetImage(
-                                  'assets/numeros/${cartas[i]}.png'))),
-                        ),
-                        child: Container(
-                          height: 100.0,
-                          width: 100.0,
-                          color: Colors.lightGreenAccent,
-                          child: Center(
-                              child: ImageIcon(AssetImage(
-                                  'assets/numeros/${cartas[i]}.png'))),
-                        ),
-                      ),
-                    ),
+                  for (int i = 8; i <= 10; i++)
+                    ButaoConta(posicao: i, color: Colors.lightGreenAccent),
+                  ButaoConta(posicao: 11, color: Colors.blue)
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  for (int i = 12; i <= 13; i++)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 3, bottom: 3),
-                      child: Draggable(
-                        // Data is the value this Draggable stores.
-                        data: cartas[i],
-                        feedback: Container(
-                          color: Colors.green,
-                          height: 100,
-                          width: 100,
-                          child: Center(
-                              child: ImageIcon(AssetImage(
-                                  'assets/numeros/${cartas[i] == '*' ? 'vezes' : cartas[i]}.png'))),
-                        ),
-                        childWhenDragging: Container(
-                          height: 100.0,
-                          width: 100.0,
-                          child: Center(
-                              child: ImageIcon(AssetImage(
-                                  'assets/numeros/${cartas[i] == '*' ? 'vezes' : cartas[i]}.png'))),
-                        ),
-                        child: Container(
-                          height: 100.0,
-                          width: 100.0,
-                          color: Colors.lightGreenAccent,
-                          child: Center(
-                              child: ImageIcon(AssetImage(
-                                  'assets/numeros/${cartas[i] == '*' ? 'vezes' : cartas[i]}.png'))),
-                        ),
-                      ),
-                    ),
+                  ButaoConta(posicao: 12, color: Colors.lightGreenAccent),
+                  ButaoConta(posicao: 13, color: Colors.blue)
                 ],
               ),
               const SizedBox(
@@ -395,6 +341,39 @@ class _MyHomePageState extends State<JogoCalcular> {
                 child: const Text('Apagar conta'),
               )
             ])));
+  }
+
+  Padding ButaoConta({required int posicao, required Color color}) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 3, bottom: 3),
+      child: Draggable(
+        // Data is the value this Draggable stores.
+        data: cartas[posicao],
+        feedback: Container(
+          color: color,
+          height: 100,
+          width: 100,
+          child: Center(
+              child: ImageIcon(AssetImage(
+                  'assets/numeros/${cartas[posicao] == '*' ? 'vezes' : cartas[posicao]}.png'))),
+        ),
+        childWhenDragging: Container(
+          height: 100.0,
+          width: 100.0,
+          child: Center(
+              child: ImageIcon(AssetImage(
+                  'assets/numeros/${cartas[posicao] == '*' ? 'vezes' : cartas[posicao]}.png'))),
+        ),
+        child: Container(
+          height: 100.0,
+          width: 100.0,
+          color: color,
+          child: Center(
+              child: ImageIcon(AssetImage(
+                  'assets/numeros/${cartas[posicao] == '*' ? 'vezes' : cartas[posicao]}.png'))),
+        ),
+      ),
+    );
   }
 
   @override

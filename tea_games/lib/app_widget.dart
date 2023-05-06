@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:tea_games/Auxiliadores/emailteste.dart';
+import 'package:tea_games/Login_Cadastro/cadastrar.dart';
+import 'package:tea_games/Login_Cadastro/confirmarcadastro.dart';
+import 'package:tea_games/Login_Cadastro/login.dart';
+import 'package:tea_games/Login_Cadastro/novasenha.dart';
 import 'package:tea_games/fases_memorias/fase_menu_memoria.dart';
 import 'package:tea_games/home.dart';
 import 'package:tea_games/jogocalcular.dart';
 import 'package:tea_games/jogomemoria.dart';
 import 'package:tea_games/letras.dart';
-import 'package:tea_games/testetts.dart';
+import 'package:tea_games/Auxiliadores/testetts.dart';
 
 import 'fases_memorias/jogomemoria_fase1.dart';
 import 'fases_memorias/jogomemoria_fase2.dart';
@@ -32,8 +37,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/tts',
+      initialRoute: '/jogocalcular',
       routes: {
+        '/login': (context) => const Login(),
+        '/cadastro': (context) => const Cadastro(),
+        '/confirmarCadastro': (context) => const ConfirmarCadastro(),
+        '/novasenha': (context) => const NovaSenha(),
+        '/testes': (context) => const TesteTela(),
         '/home': (context) => const Home(),
         '/pareamento': (context) =>
             const JogoPareamento(title: 'Flutter Demo Home Page'),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../app_controller.dart';
+import '../Auxiliadores/app_controller.dart';
 
 class MenuFaseMemoria extends StatefulWidget {
   const MenuFaseMemoria({super.key});

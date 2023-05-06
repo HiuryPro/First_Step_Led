@@ -31,8 +31,8 @@ CREATE TABLE `fases_memoria` (
   `FASE_5` bit(1) NOT NULL DEFAULT b'0',
   `FASE_6` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`ID_USUARIO`),
-  CONSTRAINT `fases_memoria_ibfk_1` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuario` (`ID_USUARIO`),
-  CONSTRAINT `fases_memoria_ibfk_2` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuario` (`ID_USUARIO`)
+  CONSTRAINT `fases_memoria_ibfk_1` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuario` (`ID_USUARIO`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fases_memoria_ibfk_2` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuario` (`ID_USUARIO`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -42,7 +42,7 @@ CREATE TABLE `fases_memoria` (
 
 LOCK TABLES `fases_memoria` WRITE;
 /*!40000 ALTER TABLE `fases_memoria` DISABLE KEYS */;
-INSERT INTO `fases_memoria` VALUES (1,'\0','\0','\0','\0','\0','\0');
+INSERT INTO `fases_memoria` VALUES (1,'\0','\0','\0','\0','\0','\0'),(3,'\0','\0','\0','\0','\0','\0'),(5,'\0','\0','\0','\0','\0','\0');
 /*!40000 ALTER TABLE `fases_memoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,8 +62,8 @@ CREATE TABLE `fases_pareamento` (
   `FASE_5` bit(1) NOT NULL DEFAULT b'0',
   `FASE_6` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`ID_USUARIO`),
-  CONSTRAINT `fases_pareamento_ibfk_1` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuario` (`ID_USUARIO`),
-  CONSTRAINT `fases_pareamento_ibfk_2` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuario` (`ID_USUARIO`)
+  CONSTRAINT `fases_pareamento_ibfk_1` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuario` (`ID_USUARIO`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fases_pareamento_ibfk_2` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuario` (`ID_USUARIO`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -73,7 +73,7 @@ CREATE TABLE `fases_pareamento` (
 
 LOCK TABLES `fases_pareamento` WRITE;
 /*!40000 ALTER TABLE `fases_pareamento` DISABLE KEYS */;
-INSERT INTO `fases_pareamento` VALUES (1,'\0','\0','\0','\0','\0','\0');
+INSERT INTO `fases_pareamento` VALUES (1,'\0','\0','\0','\0','\0','\0'),(3,'\0','\0','\0','\0','\0','\0'),(5,'\0','\0','\0','\0','\0','\0');
 /*!40000 ALTER TABLE `fases_pareamento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -89,8 +89,8 @@ CREATE TABLE `score` (
   `JOGO_MEMORIA` decimal(11,2) DEFAULT 0.00,
   `JOGO_PAREAMENTO` decimal(11,2) DEFAULT 0.00,
   PRIMARY KEY (`ID_USUARIO`),
-  CONSTRAINT `score_ibfk_1` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuario` (`ID_USUARIO`),
-  CONSTRAINT `score_ibfk_2` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuario` (`ID_USUARIO`)
+  CONSTRAINT `score_ibfk_1` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuario` (`ID_USUARIO`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `score_ibfk_2` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuario` (`ID_USUARIO`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -100,7 +100,7 @@ CREATE TABLE `score` (
 
 LOCK TABLES `score` WRITE;
 /*!40000 ALTER TABLE `score` DISABLE KEYS */;
-INSERT INTO `score` VALUES (1,0.00,0.00);
+INSERT INTO `score` VALUES (1,0.00,0.00),(3,0.00,0.00),(5,0.00,0.00);
 /*!40000 ALTER TABLE `score` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,14 +114,13 @@ DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE `usuario` (
   `ID_USUARIO` int(11) NOT NULL AUTO_INCREMENT,
   `NOME_USUARIO` varchar(100) NOT NULL,
-  `IDADE` int(11) NOT NULL,
   `EMAIL` varchar(100) NOT NULL,
   `SENHA` varchar(30) NOT NULL,
   `IS_ATIVO` bit(1) NOT NULL DEFAULT b'0',
   `CODIGO` varchar(6) DEFAULT NULL,
   `DATA_NASC` date DEFAULT NULL,
   PRIMARY KEY (`ID_USUARIO`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +129,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'Jorge',6,'claudia121@gmail.com','12345678','\0','861612','2017-07-04');
+INSERT INTO `usuario` VALUES (1,'Jorge','claudia121@gmail.com','12345678','\0','861612','2017-07-04'),(3,'Ricardo','ricardobalbino@unipam.edu.br','12345678','',NULL,'2023-05-09'),(5,'Hiury','hiurylucas@unipam.edu.br','12345678','\0','587192','2002-12-28');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -164,4 +163,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-01 11:24:56
+-- Dump completed on 2023-05-06 17:51:58

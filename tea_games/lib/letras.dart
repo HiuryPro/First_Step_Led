@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:tea_games/textoprafala.dart';
+import 'package:tea_games/Auxiliadores/textoprafala.dart';
 
-import '../app_controller.dart';
+import 'Auxiliadores/app_controller.dart';
 
 class Letras extends StatefulWidget {
   const Letras({super.key, required this.title});

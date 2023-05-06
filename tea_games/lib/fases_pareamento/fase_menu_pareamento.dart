@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../app_controller.dart';
+import '../Auxiliadores/app_controller.dart';
 
 class MenuFasePareamento extends StatefulWidget {
   const MenuFasePareamento({super.key});
@@ -106,13 +106,15 @@ class _MenuFasePareamentoState extends State<MenuFasePareamento> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(
+    return Scaffold(
+        appBar: AppBar(
           leading: IconButton(
             onPressed: () {
               Navigator.of(context).pushNamed('/home');
             },
             icon: Icon(Icons.arrow_back),
           ),
-        ),body: body());
+        ),
+        body: body());
   }
 }

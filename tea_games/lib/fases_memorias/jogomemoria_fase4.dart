@@ -4,7 +4,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 
-import '../app_controller.dart';
+import '../Auxiliadores/app_controller.dart';
 
 class JogoMemoriaFase4 extends StatefulWidget {
   const JogoMemoriaFase4({super.key, required this.title});
@@ -56,9 +56,9 @@ class _JogoMemoriaFase4State extends State<JogoMemoriaFase4> {
     cartas.shuffle();
     listaColor = List.filled(cartas.length, null);
     for (int i = 0; i < cartas.length; i++) {
-      var random = Random();
-      var randomNumber = random.nextInt(10000);
-      cardKeys.add(GlobalObjectKey<FlipCardState>(randomNumber));
+      cardKeys.add(GlobalObjectKey<FlipCardState>(
+          AppController.instance.incrementaCarta));
+      AppController.instance.incrementaCarta++;
     }
   }
 
