@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
+import 'Auxiliadores/app_controller.dart';
+import 'DadosDB/crud.dart';
+
 class JogoPareamento extends StatefulWidget {
   const JogoPareamento({super.key, required this.title});
   final String title;
@@ -11,6 +14,9 @@ class JogoPareamento extends StatefulWidget {
 
 class _MyHomePageState extends State<JogoPareamento> {
   final audioPlayer = AudioPlayer();
+  CRUD crud = CRUD();
+  int scoreMaximo = AppController.instance.scoreMaximo;
+  int scoreAtual = 0;
   int _counter = 0;
   List cartas = [
     "abacate",
@@ -102,7 +108,25 @@ class _MyHomePageState extends State<JogoPareamento> {
         print('Pareou');
         setState(() {
           listaColor[segundaCartaSelecionada] = Colors.green;
+          scoreAtual += 5;
         });
+
+        if (scoreMaximo < scoreAtual) {
+          List resultado = [];
+          int id = AppController.instance.idUsuario;
+          await crud.update(
+              query:
+                  'Update score set JOGO_PAREAMENTO = $scoreAtual where ID_USUARIO = $id',
+              lista: []);
+
+          resultado = await crud.select(
+              query:
+                  'Select JOGO_PAREAMENTO from score where ID_USUARIO = $id');
+          setState(() {
+            scoreMaximo = resultado[0]['JOGO_PAREAMENTO'];
+          });
+        }
+
         await audioPlayer.setAsset(
             'assets/sounds/frutas/${cartas[primeiraCartaSelecionada]}.mp3',
             initialPosition: Duration.zero);
@@ -117,13 +141,14 @@ class _MyHomePageState extends State<JogoPareamento> {
         setState(() {
           listaColor[segundaCartaSelecionada] = Colors.red;
           listaColor[primeiraCartaSelecionada] = Colors.red;
+          scoreAtual = 0;
         });
 
         await Future.delayed(const Duration(seconds: 2));
 
         setState(() {
-          listaColor[segundaCartaSelecionada] = null;
-          listaColor[primeiraCartaSelecionada] = null;
+          listaColor.clear();
+          listaColor = List.filled(cartas.length, null);
         });
       }
       primeiraCartaSelecionada = -1;
@@ -214,7 +239,44 @@ class _MyHomePageState extends State<JogoPareamento> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 15.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                    onPressed: () async {
+                      setState(() {
+                        cartas.shuffle();
+                        listaColor = List.filled(cartas.length, null);
+                        scoreAtual = 0;
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.restart_alt,
+                      size: 40,
+                    )),
+                const SizedBox(
+                  width: 30,
+                ),
+                Text(
+                  'Pontuação da Partida:  $scoreAtual',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  'Sua Maior Pontuação:  $scoreMaximo',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 20),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
       body: body(),
     );

@@ -1,6 +1,9 @@
 import 'package:just_audio/just_audio.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
+import 'package:tea_games/DadosDB/crud.dart';
+
+import 'Auxiliadores/app_controller.dart';
 
 class JogoMemoria extends StatefulWidget {
   const JogoMemoria({super.key, required this.title});
@@ -11,7 +14,11 @@ class JogoMemoria extends StatefulWidget {
 }
 
 class _JogoMemoriaState extends State<JogoMemoria> {
-  bool visivel = true;
+  CRUD crud = CRUD();
+
+  int scoreMaximo = AppController.instance.scoreMaximo;
+  int scoreAtual = 0;
+  bool jogando = false;
   List<GlobalObjectKey<FlipCardState>> cardKeys = [];
   final GlobalKey<ScaffoldState> buttonkeyS = GlobalKey();
   GlobalKey keyButton = GlobalKey();
@@ -66,7 +73,7 @@ class _JogoMemoriaState extends State<JogoMemoria> {
   ];
 
   ElevatedButton button = ElevatedButton(
-    child: Text("Button"),
+    child: const Text("Button"),
     onPressed: () async {
       AudioPlayer backgroundAudio = AudioPlayer();
       ;
@@ -81,14 +88,16 @@ class _JogoMemoriaState extends State<JogoMemoria> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () async {
+      // button.onPressed?.call();
+    });
     cartas.shuffle();
     listaColor = List.filled(cartas.length, null);
-    cardKeys = List.generate(
-        cartas.length, (index) => GlobalObjectKey<FlipCardState>(index));
-
-    Future.delayed(Duration.zero, () async {
-      button.onPressed?.call();
-    });
+    for (int i = 0; i < cartas.length; i++) {
+      cardKeys.add(GlobalObjectKey<FlipCardState>(
+          AppController.instance.incrementaCarta));
+      AppController.instance.incrementaCarta++;
+    }
   }
 
   int primeiraCartaSelecionada = -1;
@@ -107,7 +116,23 @@ class _JogoMemoriaState extends State<JogoMemoria> {
         print('Pareou');
         setState(() {
           listaColor[segundaCartaSelecionada] = Colors.green;
+          scoreAtual += 5;
         });
+        if (scoreMaximo < scoreAtual) {
+          List resultado = [];
+          int id = AppController.instance.idUsuario;
+          await crud.update(
+              query:
+                  'Update score set JOGO_MEMORIA = $scoreAtual where ID_USUARIO = $id',
+              lista: []);
+
+          resultado = await crud.select(
+              query: 'Select JOGO_MEMORIA from score where ID_USUARIO = $id');
+          setState(() {
+            scoreMaximo = resultado[0]['JOGO_MEMORIA'];
+          });
+        }
+
         await audioPlayer.setAsset(
             'assets/sounds/frutas/${cartas[primeiraCartaSelecionada]}.mp3',
             initialPosition: Duration.zero);
@@ -126,23 +151,20 @@ class _JogoMemoriaState extends State<JogoMemoria> {
 
         await Future.delayed(const Duration(seconds: 2));
 
-        await cardKeys[segundaCartaSelecionada].currentState!.toggleCard();
-        await cardKeys[primeiraCartaSelecionada].currentState!.toggleCard();
+        for (int i = 0; i < listaColor.length; i++) {
+          if (listaColor[i] != null) {
+            await cardKeys[i].currentState!.toggleCard();
+          }
+        }
 
         setState(() {
-          listaColor[segundaCartaSelecionada] = null;
-          listaColor[primeiraCartaSelecionada] = null;
+          scoreAtual = 0;
+          listaColor = List.filled(cartas.length, null);
         });
       }
       primeiraCartaSelecionada = -1;
       segundaCartaSelecionada = -1;
     }
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
   }
 
   Future<void> piscaImagens() async {
@@ -168,90 +190,97 @@ class _JogoMemoriaState extends State<JogoMemoria> {
             child: Column(
               children: [
                 Expanded(
-                  child: GridView.builder(
-                    itemCount: cartas.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            mainAxisSpacing: 5,
-                            crossAxisSpacing: 5,
-                            crossAxisCount: 10),
-                    itemBuilder: (BuildContext context, int index) {
-                      return FlipCard(
-                        flipOnTouch: false,
-                        key: cardKeys[index],
-                        fill: Fill
-                            .fillBack, // Fill the back side of the card to make in the same size as the front.
-                        direction: FlipDirection.HORIZONTAL, // default
-                        side: CardSide.FRONT, // The side to initially display.
-                        front: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: listaColor[index],
-                          ),
-                          child: Center(
-                            child: IconButton(
-                              iconSize: 70,
-                              icon: Image.asset(
-                                  'assets/images/frutas/${cartas[index]}.png'),
-                              onPressed: null,
-                            ),
-                          ),
-                        ),
-                        back: GestureDetector(
-                          onTap: () async {
-                            if (primeiraCartaSelecionada == -1 ||
-                                segundaCartaSelecionada == -1) {
-                              if (listaColor[index] == null) {
-                                await cardKeys[index]
-                                    .currentState!
-                                    .toggleCard();
-                                await verificarPareamento(index);
-                                setState(() {});
-                              }
-
-                              if (!listaColor.contains(null)) {
-                                for (var i = 0; i < 3; i++) {
-                                  await piscaImagens();
-                                }
-
-                                await Future.delayed(
-                                    const Duration(seconds: 1));
-                                setState(() {
-                                  listaColor = List.filled(cartas.length, null);
-                                  cartas.shuffle();
-                                });
-                              }
-                            }
-                          },
-                          child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 40.0, left: 40.0),
+                    child: GridView.builder(
+                      itemCount: cartas.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              mainAxisSpacing: 5,
+                              crossAxisSpacing: 5,
+                              crossAxisCount: 10),
+                      itemBuilder: (BuildContext context, int index) {
+                        return FlipCard(
+                          flipOnTouch: false,
+                          key: cardKeys[index],
+                          fill: Fill
+                              .fillBack, // Fill the back side of the card to make in the same size as the front.
+                          direction: FlipDirection.HORIZONTAL, // default
+                          side:
+                              CardSide.FRONT, // The side to initially display.
+                          front: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: listaColor[index],
                             ),
-                            child: Image.asset(
-                              'assets/images/costasCarta.jpg',
-                              fit: BoxFit.fill,
+                            child: Center(
+                              child: IconButton(
+                                iconSize: 70,
+                                icon: Image.asset(
+                                    'assets/images/frutas/${cartas[index]}.png'),
+                                onPressed: null,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                          back: GestureDetector(
+                            onTap: () async {
+                              if (primeiraCartaSelecionada == -1 ||
+                                  segundaCartaSelecionada == -1) {
+                                if (listaColor[index] == null) {
+                                  await cardKeys[index]
+                                      .currentState!
+                                      .toggleCard();
+                                  await verificarPareamento(index);
+                                  setState(() {});
+                                }
+
+                                if (!listaColor.contains(null)) {
+                                  for (var i = 0; i < 3; i++) {
+                                    await piscaImagens();
+                                  }
+
+                                  await Future.delayed(
+                                      const Duration(seconds: 1));
+                                  setState(() {
+                                    listaColor =
+                                        List.filled(cartas.length, null);
+                                    cartas.shuffle();
+                                  });
+                                }
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: listaColor[index],
+                              ),
+                              child: Image.asset(
+                                'assets/images/costasCarta.jpg',
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                ElevatedButton(
-                    onPressed: () async {
-                      setState(() {
-                        cartas.shuffle();
-                      });
-                      await Future.delayed(const Duration(seconds: 2));
-                      for (int i = 0; i < cardKeys.length; i++) {
-                        await cardKeys[i].currentState!.toggleCard();
-                      }
-                    },
-                    child: const Text('Começar')),
+                if (!jogando)
+                  ElevatedButton(
+                      onPressed: () async {
+                        setState(() {
+                          cartas.shuffle();
+                          jogando = true;
+                        });
+                        await Future.delayed(const Duration(seconds: 2));
+                        for (int i = 0; i < cardKeys.length; i++) {
+                          await cardKeys[i].currentState!.toggleCard();
+                        }
+                      },
+                      child: const Text('Começar')),
               ],
             )));
   }
@@ -259,10 +288,74 @@ class _JogoMemoriaState extends State<JogoMemoria> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: body(),
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      appBar: AppBar(backgroundColor: Colors.transparent, actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              if (jogando)
+                IconButton(
+                    onPressed: () async {
+                      for (int i = 0; i < listaColor.length; i++) {
+                        if (listaColor[i] == null) {
+                          await cardKeys[i].currentState!.toggleCard();
+                        }
+                      }
+                      setState(() {
+                        listaColor = List.filled(cartas.length, null);
+                      });
+                      await Future.delayed(const Duration(seconds: 2));
+                      setState(() {
+                        cartas.shuffle();
+                        scoreAtual = 0;
+                      });
+
+                      await Future.delayed(const Duration(seconds: 5));
+
+                      for (int i = 0; i < listaColor.length; i++) {
+                        if (listaColor[i] == null) {
+                          await cardKeys[i].currentState!.toggleCard();
+                        }
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.restart_alt,
+                      size: 40,
+                    )),
+              const SizedBox(
+                width: 30,
+              ),
+              Text(
+                'Pontuação da Partida:  $scoreAtual',
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              Text(
+                'Sua Maior Pontuação:  $scoreMaximo',
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              )
+            ],
+          ),
+        ),
+      ]),
+      body: Stack(children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Image.asset(
+            'assets/images/fundomemoria.jpg',
+            fit: BoxFit.cover,
+          ),
+        ),
+        body()
+      ]),
     );
   }
 }

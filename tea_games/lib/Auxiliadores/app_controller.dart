@@ -15,6 +15,8 @@ class AppController extends ChangeNotifier {
   String email = '';
   String senha = '';
   String nome = '';
+  int idUsuario = 0;
+  int scoreMaximo = 0;
 
   int incrementaCarta = 0;
 

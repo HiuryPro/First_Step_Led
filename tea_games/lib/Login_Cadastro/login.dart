@@ -95,6 +95,8 @@ class _LoginState extends State<Login> {
                           erroemail = 'Email/Senha Incorreto';
                         });
                       } else {
+                        AppController.instance.idUsuario =
+                            user[0]['ID_USUARIO'];
                         AppController.instance.email = email;
                         AppController.instance.senha = senha;
                         AppController.instance.nome = user[0]['NOME_USUARIO'];

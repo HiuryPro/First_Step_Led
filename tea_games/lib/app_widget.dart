@@ -33,11 +33,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/jogocalcular',
+      initialRoute: '/login',
       routes: {
         '/login': (context) => const Login(),
         '/cadastro': (context) => const Cadastro(),
@@ -47,6 +48,9 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const Home(),
         '/pareamento': (context) =>
             const JogoPareamento(title: 'Flutter Demo Home Page'),
+        '/memoria': (context) => const JogoMemoria(
+              title: 'Teste',
+            ),
         '/memoriaFase1': (context) => const JogoMemoriaFase1(title: 'Teste'),
         '/memoriaFase2': (context) => const JogoMemoriaFase2(title: 'Teste'),
         '/memoriaFase3': (context) => const JogoMemoriaFase3(title: 'Teste'),
