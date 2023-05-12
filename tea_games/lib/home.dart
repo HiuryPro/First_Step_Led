@@ -29,6 +29,14 @@ class _HomeState extends State<Home> {
                 height: 15,
               ),
               ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/fasepareamento');
+                  },
+                  child: const Text("Menu de Fases do Jogo de Pareamento")),
+              const SizedBox(
+                height: 15,
+              ),
+              ElevatedButton(
                   onPressed: () async {
                     int id = AppController.instance.idUsuario;
                     List resultado = [];
@@ -57,6 +65,12 @@ class _HomeState extends State<Home> {
                     Navigator.of(context).pushNamed('/pareamento');
                   },
                   child: const Text("Jogo de Pareamento")),
+              SizedBox(height: 15),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/jogocalcular');
+                  },
+                  child: const Text("Calculadora")),
             ],
           ),
         ),
