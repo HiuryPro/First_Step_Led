@@ -109,11 +109,11 @@ class _MenuFaseMemoriaState extends State<MenuFaseMemoria> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed('/home');
-            },
-            icon: Icon(Icons.arrow_back),
-          ),
+              onPressed: () async {
+                await AppController.instance.backgroundMusic('home');
+                Navigator.of(context).pushNamed('/home');
+              },
+              icon: Icon(Icons.arrow_back)),
         ),
         body: body());
   }

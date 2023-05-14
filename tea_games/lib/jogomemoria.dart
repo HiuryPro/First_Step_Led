@@ -23,7 +23,6 @@ class _JogoMemoriaState extends State<JogoMemoria> {
   final GlobalKey<ScaffoldState> buttonkeyS = GlobalKey();
   GlobalKey keyButton = GlobalKey();
   final audioPlayer = AudioPlayer();
-  int _counter = 0;
   List cartas = [
     "abacate",
     "abacate",
@@ -72,23 +71,11 @@ class _JogoMemoriaState extends State<JogoMemoria> {
     null,
   ];
 
-  ElevatedButton button = ElevatedButton(
-    child: const Text("Button"),
-    onPressed: () async {
-      AudioPlayer backgroundAudio = AudioPlayer();
-      await backgroundAudio.setAsset('assets/sounds/memoria.mp3',
-          initialPosition: Duration.zero);
-      await backgroundAudio.setVolume(0.3);
-      await backgroundAudio.setLoopMode(LoopMode.one);
-      await backgroundAudio.play();
-    },
-  );
-
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
-      button.onPressed?.call();
+      await AppController.instance.backgroundMusic('memoria');
     });
     cartas.shuffle();
     listaColor = List.filled(cartas.length, null);
@@ -189,7 +176,6 @@ class _JogoMemoriaState extends State<JogoMemoria> {
             BoxShadow(
                 color: Colors.black.withOpacity(0.2),
                 blurRadius: 1,
-                offset: Offset(4, 8),
                 blurStyle: BlurStyle.normal // Shadow position
                 ),
           ]),
@@ -303,61 +289,70 @@ class _JogoMemoriaState extends State<JogoMemoria> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(backgroundColor: Colors.transparent, actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 15.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              if (jogando)
-                IconButton(
-                    onPressed: () async {
-                      for (int i = 0; i < listaColor.length; i++) {
-                        if (listaColor[i] == null) {
-                          await cardKeys[i].currentState!.toggleCard();
-                        }
-                      }
-                      setState(() {
-                        listaColor = List.filled(cartas.length, null);
-                      });
-                      await Future.delayed(const Duration(seconds: 2));
-                      setState(() {
-                        cartas.shuffle();
-                        scoreAtual = 0;
-                      });
+      appBar: AppBar(
+          leading: IconButton(
+              onPressed: () async {
+                await AppController.instance.backgroundMusic('home');
+                Navigator.of(context).pushNamed('/home');
+              },
+              icon: Icon(Icons.arrow_back)),
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.black.withOpacity(0.2),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  if (jogando)
+                    IconButton(
+                        onPressed: () async {
+                          for (int i = 0; i < listaColor.length; i++) {
+                            if (listaColor[i] == null) {
+                              await cardKeys[i].currentState!.toggleCard();
+                            }
+                          }
+                          setState(() {
+                            listaColor = List.filled(cartas.length, null);
+                          });
+                          await Future.delayed(const Duration(seconds: 2));
+                          setState(() {
+                            cartas.shuffle();
+                            scoreAtual = 0;
+                          });
 
-                      await Future.delayed(const Duration(seconds: 5));
+                          await Future.delayed(const Duration(seconds: 5));
 
-                      for (int i = 0; i < listaColor.length; i++) {
-                        if (listaColor[i] == null) {
-                          await cardKeys[i].currentState!.toggleCard();
-                        }
-                      }
-                    },
-                    icon: const Icon(
-                      Icons.restart_alt,
-                      size: 40,
-                    )),
-              const SizedBox(
-                width: 30,
+                          for (int i = 0; i < listaColor.length; i++) {
+                            if (listaColor[i] == null) {
+                              await cardKeys[i].currentState!.toggleCard();
+                            }
+                          }
+                        },
+                        icon: const Icon(
+                          Icons.restart_alt,
+                          size: 40,
+                        )),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  Text(
+                    'Pontuação da Partida:  $scoreAtual',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    'Sua Maior Pontuação:  $scoreMaximo',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 20),
+                  )
+                ],
               ),
-              Text(
-                'Pontuação da Partida:  $scoreAtual',
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-              Text(
-                'Sua Maior Pontuação:  $scoreMaximo',
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              )
-            ],
-          ),
-        ),
-      ]),
+            ),
+          ]),
       body: Stack(children: [
         SizedBox(
           width: MediaQuery.of(context).size.width,

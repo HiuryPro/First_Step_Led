@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:tea_games/Auxiliadores/textoprafala.dart';
 
-import 'Auxiliadores/app_controller.dart';
-
 class Letras extends StatefulWidget {
   const Letras({super.key, required this.title});
   final String title;
@@ -14,7 +12,6 @@ class Letras extends StatefulWidget {
 
 class _MyHomePageState extends State<Letras> {
   final audioPlayer = AudioPlayer();
-  int _counter = 0;
   int fase = 1;
   List alfabeto = [
     'A',

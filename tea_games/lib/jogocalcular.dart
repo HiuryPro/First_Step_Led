@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:tea_games/Auxiliadores/textoprafala.dart';
 
+import 'Auxiliadores/app_controller.dart';
+
 class JogoCalcular extends StatefulWidget {
   const JogoCalcular({super.key, required this.title});
   final String title;
@@ -14,7 +16,6 @@ class _MyHomePageState extends State<JogoCalcular> {
   int acceptedData = 0;
   final audioPlayer = AudioPlayer();
   int escolha = 0;
-  int _counter = 0;
   List cartas = [
     '1',
     '2',
@@ -38,28 +39,12 @@ class _MyHomePageState extends State<JogoCalcular> {
   int? conta;
   int? resto;
 
-  ElevatedButton button = ElevatedButton(
-    child: const Text("Button"),
-    onPressed: () async {
-      while (true) {
-        AudioPlayer backgroundAudio = AudioPlayer();
-        await backgroundAudio.setAsset('assets/sounds/memoria.mp3',
-            initialPosition: Duration.zero);
-        await backgroundAudio.setVolume(0.3);
-        await backgroundAudio.setLoopMode(LoopMode.all);
-        await backgroundAudio.play();
-        Duration? duration = await backgroundAudio.durationFuture;
-        await Future.delayed(duration!);
-      }
-    },
-  );
-
   @override
   void initState() {
     super.initState();
 
     Future.delayed(Duration.zero, () async {
-      // button.onPressed?.call();
+      await AppController.instance.backgroundMusic('calculadora');
     });
   }
 
@@ -82,10 +67,13 @@ class _MyHomePageState extends State<JogoCalcular> {
         });
       } else {
         setState(() {
-          try {
+          if (num2 != '0') {
             conta = int.parse(num1!) ~/ int.parse(num2!);
             resto = int.parse(num1!) % int.parse(num2!);
-          } catch (e) {}
+          } else {
+            conta = 0;
+            resto = 0;
+          }
         });
       }
     }
@@ -379,10 +367,30 @@ class _MyHomePageState extends State<JogoCalcular> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text(widget.title),
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        leading: IconButton(
+            onPressed: () async {
+              await AppController.instance.backgroundMusic('home');
+              Navigator.of(context).pushNamed('/home');
+            },
+            icon: Icon(Icons.arrow_back)),
       ),
-      body: body(),
+      body: Stack(
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Image.asset(
+              'assets/images/calculadora.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
+          body(),
+        ],
+      ),
     );
   }
 }

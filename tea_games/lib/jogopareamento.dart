@@ -17,7 +17,6 @@ class _MyHomePageState extends State<JogoPareamento> {
   CRUD crud = CRUD();
   int scoreMaximo = AppController.instance.scoreMaximo;
   int scoreAtual = 0;
-  int _counter = 0;
   List cartas = [
     "abacate",
     "abacate",
@@ -65,21 +64,6 @@ class _MyHomePageState extends State<JogoPareamento> {
     null,
     null,
   ];
-  ElevatedButton button = ElevatedButton(
-    child: Text("Button"),
-    onPressed: () async {
-      while (true) {
-        AudioPlayer backgroundAudio = AudioPlayer();
-        await backgroundAudio.setAsset('assets/sounds/memoria.mp3',
-            initialPosition: Duration.zero);
-        await backgroundAudio.setVolume(0.3);
-        await backgroundAudio.setLoopMode(LoopMode.all);
-        await backgroundAudio.play();
-        Duration? duration = await backgroundAudio.durationFuture;
-        await Future.delayed(duration!);
-      }
-    },
-  );
 
   @override
   void initState() {
@@ -88,7 +72,7 @@ class _MyHomePageState extends State<JogoPareamento> {
     listaColor = List.filled(cartas.length, null);
 
     Future.delayed(Duration.zero, () async {
-      button.onPressed?.call();
+      await AppController.instance.backgroundMusic('pareamento');
     });
   }
 
@@ -154,12 +138,6 @@ class _MyHomePageState extends State<JogoPareamento> {
       primeiraCartaSelecionada = -1;
       segundaCartaSelecionada = -1;
     }
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
   }
 
   Future<void> piscaImagens() async {
@@ -239,6 +217,12 @@ class _MyHomePageState extends State<JogoPareamento> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () async {
+              await AppController.instance.backgroundMusic('home');
+              Navigator.of(context).pushNamed('/home');
+            },
+            icon: Icon(Icons.arrow_back)),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 15.0),

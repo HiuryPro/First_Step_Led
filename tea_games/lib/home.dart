@@ -10,6 +10,15 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration.zero, () async {
+      await AppController.instance.backgroundMusic('home');
+    });
+  }
+
   Widget body() {
     return SizedBox(
       height: MediaQuery.of(context).size.height,
@@ -81,6 +90,14 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () async {
+              await AppController.instance.backgroundAudio.stop();
+              Navigator.of(context).pushNamed('/loginr');
+            },
+            icon: Icon(Icons.arrow_back)),
+      ),
       body: body(),
     );
   }

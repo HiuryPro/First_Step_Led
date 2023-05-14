@@ -1,4 +1,3 @@
-import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -43,7 +42,7 @@ class AppController extends ChangeNotifier {
 
   Future<void> backgroundMusic(String musica) async {
     await backgroundAudio.stop();
-    backgroundAudio = new AudioPlayer();
+    backgroundAudio = AudioPlayer();
     await backgroundAudio.setAsset('assets/sounds/$musica.mp3',
         initialPosition: Duration.zero);
     await backgroundAudio.setLoopMode(LoopMode.one);

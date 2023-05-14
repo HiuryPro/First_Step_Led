@@ -13,7 +13,6 @@ class JogoPareamentoFase4 extends StatefulWidget {
 
 class _MyHomePageState extends State<JogoPareamentoFase4> {
   final audioPlayer = AudioPlayer();
-  int _counter = 0;
   int fase = 4;
   List cartas = [
     "abacate",
@@ -87,12 +86,6 @@ class _MyHomePageState extends State<JogoPareamentoFase4> {
       primeiraCartaSelecionada = -1;
       segundaCartaSelecionada = -1;
     }
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
   }
 
   Future<void> piscaImagens() async {

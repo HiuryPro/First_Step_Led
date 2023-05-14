@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:just_audio/just_audio.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +19,6 @@ class _JogoMemoriaFase4State extends State<JogoMemoriaFase4> {
   final GlobalKey<ScaffoldState> buttonkeyS = GlobalKey();
   GlobalKey keyButton = GlobalKey();
   final audioPlayer = AudioPlayer();
-  int _counter = 0;
   List cartas = [
     "abacate",
     "abacate",
@@ -102,12 +99,6 @@ class _JogoMemoriaFase4State extends State<JogoMemoriaFase4> {
       primeiraCartaSelecionada = -1;
       segundaCartaSelecionada = -1;
     }
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
   }
 
   Future<void> piscaImagens() async {

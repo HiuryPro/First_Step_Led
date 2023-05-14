@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tea_games/Auxiliadores/emailteste.dart';
-import 'package:tea_games/Login_Cadastro/cadastrar.dart';
 import 'package:tea_games/Login_Cadastro/confirmarcadastro.dart';
-import 'package:tea_games/Login_Cadastro/login.dart';
 import 'package:tea_games/Login_Cadastro/novasenha.dart';
 import 'package:tea_games/fases_memorias/fase_menu_memoria.dart';
 import 'package:tea_games/home.dart';
@@ -11,6 +10,8 @@ import 'package:tea_games/jogomemoria.dart';
 import 'package:tea_games/letras.dart';
 import 'package:tea_games/Auxiliadores/testetts.dart';
 
+import 'Login_Cadastro/cadastror.dart';
+import 'Login_Cadastro/loginr.dart';
 import 'fases_memorias/jogomemoria_fase1.dart';
 import 'fases_memorias/jogomemoria_fase2.dart';
 import 'fases_memorias/jogomemoria_fase3.dart';
@@ -33,15 +34,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: const [Locale('pt', 'BR')],
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/login',
+      initialRoute: '/loginr',
       routes: {
-        '/login': (context) => const Login(),
-        '/cadastro': (context) => const Cadastro(),
         '/confirmarCadastro': (context) => const ConfirmarCadastro(),
         '/novasenha': (context) => const NovaSenha(),
         '/testes': (context) => const TesteTela(),
@@ -73,7 +78,9 @@ class MyApp extends StatelessWidget {
         '/fasemenupareamento': (context) => const MenuFasePareamento(),
         '/jogocalcular': (context) => const JogoCalcular(title: 're'),
         '/letras': (context) => const Letras(title: 're'),
-        '/tts': (context) => const Testetts()
+        '/tts': (context) => const Testetts(),
+        '/loginr': (context) => const LoginR(),
+        '/cadastror': (context) => const CadastroR()
       },
     );
   }
