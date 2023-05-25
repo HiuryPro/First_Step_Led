@@ -26,6 +26,7 @@ import 'fases_pareamento/jogopareamento_fase3.dart';
 import 'fases_pareamento/jogopareamento_fase4.dart';
 import 'fases_pareamento/jogopareamento_fase5.dart';
 import 'fases_pareamento/jogopareamento_fase6.dart';
+import 'jogoformasalternativo.dart';
 import 'jogopareamento.dart';
 
 class MyApp extends StatelessWidget {
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/formas',
+      initialRoute: '/loginr',
       routes: {
         '/confirmarCadastro': (context) => const ConfirmarCadastro(),
         '/novasenha': (context) => const NovaSenha(),
@@ -82,7 +83,8 @@ class MyApp extends StatelessWidget {
         '/tts': (context) => const Testetts(),
         '/loginr': (context) => const LoginR(),
         '/cadastror': (context) => const CadastroR(),
-        '/formas': (context) => const JogoFormas()
+        '/formas': (context) => const JogoFormas(),
+        '/formas2': (context) => const JogoFormasAlternativo()
       },
     );
   }

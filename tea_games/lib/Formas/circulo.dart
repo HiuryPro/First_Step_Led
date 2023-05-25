@@ -31,8 +31,6 @@ class CircleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: CirclePainter(color: color),
-      size: Size(size, size),
-    );
+        painter: CirclePainter(color: color), size: Size(size, size));
   }
 }

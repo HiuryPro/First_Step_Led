@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tea_games/Auxiliadores/app_controller.dart';
 import 'package:tea_games/DadosDB/crud.dart';
@@ -74,12 +77,22 @@ class _HomeState extends State<Home> {
                     Navigator.of(context).pushNamed('/pareamento');
                   },
                   child: const Text("Jogo de Pareamento")),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pushNamed('/jogocalcular');
                   },
                   child: const Text("Calculadora")),
+              const SizedBox(height: 15),
+              ElevatedButton(
+                  onPressed: () {
+                    if (!kIsWeb && Platform.isAndroid) {
+                      Navigator.of(context).pushNamed('/formas');
+                    } else {
+                      Navigator.of(context).pushNamed('/formas2');
+                    }
+                  },
+                  child: const Text("Jogo de Formas")),
             ],
           ),
         ),
@@ -96,7 +109,7 @@ class _HomeState extends State<Home> {
               await AppController.instance.backgroundAudio.stop();
               Navigator.of(context).pushNamed('/loginr');
             },
-            icon: Icon(Icons.arrow_back)),
+            icon: const Icon(Icons.arrow_back)),
       ),
       body: body(),
     );

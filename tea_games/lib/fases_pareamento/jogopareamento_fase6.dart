@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 
 import '../Auxiliadores/app_controller.dart';
@@ -60,32 +61,13 @@ class _MyHomePageState extends State<JogoPareamentoFase6> {
     null,
     null,
   ];
-  ElevatedButton button = ElevatedButton(
-    child: Text("Button"),
-    onPressed: () async {
-      while (true) {
-        await AppController.instance.backgroundAudio.setAsset(
-            'assets/sounds/memoria.mp3',
-            initialPosition: Duration.zero);
-        await AppController.instance.backgroundAudio.setVolume(0.3);
-        await AppController.instance.backgroundAudio.setLoopMode(LoopMode.all);
-        await AppController.instance.backgroundAudio.play();
-        Duration? duration =
-            await AppController.instance.backgroundAudio.durationFuture;
-        await Future.delayed(duration!);
-      }
-    },
-  );
 
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
     cartas.shuffle();
     listaColor = List.filled(cartas.length, null);
-
-    Future.delayed(Duration.zero, () async {
-      button.onPressed?.call();
-    });
   }
 
   int primeiraCartaSelecionada = -1;

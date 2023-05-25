@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:tea_games/Auxiliadores/textoprafala.dart';
 
@@ -42,7 +43,7 @@ class _MyHomePageState extends State<JogoCalcular> {
   @override
   void initState() {
     super.initState();
-
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
     Future.delayed(Duration.zero, () async {
       await AppController.instance.backgroundMusic('calculadora');
     });
@@ -95,89 +96,35 @@ class _MyHomePageState extends State<JogoCalcular> {
         child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  DragTarget(
-                    builder: (
-                      BuildContext context,
-                      List<dynamic> accepted,
-                      List<dynamic> rejected,
-                    ) {
-                      return Container(
-                        height: 100.0,
-                        width: 100.0,
-                        color: Colors.lightGreenAccent,
-                        child: Center(
-                            child: num1 == null
-                                ? null
-                                : ImageIcon(
-                                    AssetImage('assets/numeros/$num1.png'))),
-                      );
-                    },
-                    onAccept: (dynamic data) async {
-                      await Fala.instance.flutterTts.stop();
-                      if (!data.toString().contains(RegExp(r'^[\+\-\÷\*]$'))) {
-                        setState(() {
-                          num1 = data;
-                        });
-                        if (escolha == 0) {
-                          await Fala.instance.flutterTts.speak(data);
-                          escolha = 1;
-                        } else {
-                          await Fala.instance2.flutterTts.speak(data);
-                          escolha = 0;
-                        }
-
-                        fazerConta();
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  DragTarget(
-                    builder: (
-                      BuildContext context,
-                      List<dynamic> accepted,
-                      List<dynamic> rejected,
-                    ) {
-                      return Container(
-                        height: 100.0,
-                        width: 100.0,
-                        color: Colors.blue,
-                        child: Center(
-                            child: operador == null
-                                ? null
-                                : ImageIcon(AssetImage(
-                                    'assets/numeros/${operador == '*' ? 'vezes' : operador}.png'))),
-                      );
-                    },
-                    onAccept: (dynamic data) async {
-                      await Fala.instance.flutterTts.stop();
-                      if (data.toString().contains(RegExp(r'^[\+\-\÷\*]$')) &&
-                          num1 != null) {
-                        setState(() {
-                          operador = data;
-                        });
-                        print(data);
-                        if (data == '*') {
-                          if (escolha == 0) {
-                            await Fala.instance.flutterTts.speak('vezes');
-                            escolha = 1;
-                          } else {
-                            await Fala.instance2.flutterTts.speak('vezes');
-                            escolha = 0;
-                          }
-                        } else if (data == '-') {
-                          if (escolha == 0) {
-                            await Fala.instance.flutterTts.speak('menos');
-                            escolha = 1;
-                          } else {
-                            await Fala.instance2.flutterTts.speak('menos');
-                            escolha = 0;
-                          }
-                        } else {
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    DragTarget(
+                      builder: (
+                        BuildContext context,
+                        List<dynamic> accepted,
+                        List<dynamic> rejected,
+                      ) {
+                        return Container(
+                          height: 100.0,
+                          width: 100.0,
+                          color: Colors.lightGreenAccent,
+                          child: Center(
+                              child: num1 == null
+                                  ? null
+                                  : ImageIcon(
+                                      AssetImage('assets/numeros/$num1.png'))),
+                        );
+                      },
+                      onAccept: (dynamic data) async {
+                        await Fala.instance.flutterTts.stop();
+                        if (!data
+                            .toString()
+                            .contains(RegExp(r'^[\+\-\÷\*]$'))) {
+                          setState(() {
+                            num1 = data;
+                          });
                           if (escolha == 0) {
                             await Fala.instance.flutterTts.speak(data);
                             escolha = 1;
@@ -185,136 +132,205 @@ class _MyHomePageState extends State<JogoCalcular> {
                             await Fala.instance2.flutterTts.speak(data);
                             escolha = 0;
                           }
-                        }
 
-                        await Future.delayed(const Duration(seconds: 1));
-                        fazerConta();
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  DragTarget(
-                    builder: (
-                      BuildContext context,
-                      List<dynamic> accepted,
-                      List<dynamic> rejected,
-                    ) {
-                      return Container(
+                          fazerConta();
+                        }
+                      },
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    DragTarget(
+                      builder: (
+                        BuildContext context,
+                        List<dynamic> accepted,
+                        List<dynamic> rejected,
+                      ) {
+                        return Container(
+                          height: 100.0,
+                          width: 100.0,
+                          color: Colors.blue,
+                          child: Center(
+                              child: operador == null
+                                  ? null
+                                  : ImageIcon(AssetImage(
+                                      'assets/numeros/${operador == '*' ? 'vezes' : operador}.png'))),
+                        );
+                      },
+                      onAccept: (dynamic data) async {
+                        await Fala.instance.flutterTts.stop();
+                        if (data.toString().contains(RegExp(r'^[\+\-\÷\*]$')) &&
+                            num1 != null) {
+                          setState(() {
+                            operador = data;
+                          });
+                          print(data);
+                          if (data == '*') {
+                            if (escolha == 0) {
+                              await Fala.instance.flutterTts.speak('vezes');
+                              escolha = 1;
+                            } else {
+                              await Fala.instance2.flutterTts.speak('vezes');
+                              escolha = 0;
+                            }
+                          } else if (data == '-') {
+                            if (escolha == 0) {
+                              await Fala.instance.flutterTts.speak('menos');
+                              escolha = 1;
+                            } else {
+                              await Fala.instance2.flutterTts.speak('menos');
+                              escolha = 0;
+                            }
+                          } else {
+                            if (escolha == 0) {
+                              await Fala.instance.flutterTts.speak(data);
+                              escolha = 1;
+                            } else {
+                              await Fala.instance2.flutterTts.speak(data);
+                              escolha = 0;
+                            }
+                          }
+
+                          await Future.delayed(const Duration(seconds: 1));
+                          fazerConta();
+                        }
+                      },
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    DragTarget(
+                      builder: (
+                        BuildContext context,
+                        List<dynamic> accepted,
+                        List<dynamic> rejected,
+                      ) {
+                        return Container(
+                          height: 100.0,
+                          width: 100.0,
+                          color: Colors.lightGreenAccent,
+                          child: Center(
+                              child: num2 == null
+                                  ? null
+                                  : ImageIcon(
+                                      AssetImage('assets/numeros/$num2.png'))),
+                        );
+                      },
+                      onAccept: (dynamic data) async {
+                        await Fala.instance.flutterTts.stop();
+                        if (!data
+                            .toString()
+                            .contains(RegExp(r'^[\+\-\÷\*]$'))) {
+                          setState(() {
+                            num2 = data;
+                          });
+                          if (escolha == 0) {
+                            await Fala.instance.flutterTts.speak(data);
+                            escolha = 1;
+                          } else {
+                            await Fala.instance2.flutterTts.speak(data);
+                            escolha = 0;
+                          }
+
+                          fazerConta();
+                        }
+                      },
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      height: 100.0,
+                      width: 100.0,
+                      color: Colors.lightGreenAccent,
+                      child: const Center(
+                          child: ImageIcon(AssetImage('assets/numeros/=.png'))),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Container(
                         height: 100.0,
                         width: 100.0,
                         color: Colors.lightGreenAccent,
                         child: Center(
-                            child: num2 == null
-                                ? null
-                                : ImageIcon(
-                                    AssetImage('assets/numeros/$num2.png'))),
-                      );
-                    },
-                    onAccept: (dynamic data) async {
-                      await Fala.instance.flutterTts.stop();
-                      if (!data.toString().contains(RegExp(r'^[\+\-\÷\*]$'))) {
-                        setState(() {
-                          num2 = data;
-                        });
-                        if (escolha == 0) {
-                          await Fala.instance.flutterTts.speak(data);
-                          escolha = 1;
-                        } else {
-                          await Fala.instance2.flutterTts.speak(data);
-                          escolha = 0;
-                        }
-
-                        fazerConta();
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    height: 100.0,
-                    width: 100.0,
-                    color: Colors.lightGreenAccent,
-                    child: const Center(
-                        child: ImageIcon(AssetImage('assets/numeros/=.png'))),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                      height: 100.0,
-                      width: 100.0,
-                      color: Colors.lightGreenAccent,
-                      child: Center(
-                        child: Text(
-                          conta == null ? '' : '$conta',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 25),
-                        ),
-                      )),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  if (operador == '÷')
-                    Row(
-                      children: [
-                        const Text(
-                          "Resto",
-                          style: TextStyle(fontSize: 25),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                            height: 100.0,
-                            width: 100.0,
-                            color: Colors.lightGreenAccent,
-                            child: Center(
-                              child: Text(
-                                conta == null ? '' : '$resto',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 25),
-                              ),
-                            )),
-                      ],
-                    )
-                ],
+                          child: Text(
+                            conta == null ? '' : '$conta',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 25),
+                          ),
+                        )),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    if (operador == '÷')
+                      Row(
+                        children: [
+                          const Text(
+                            "Resto",
+                            style: TextStyle(fontSize: 25),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Container(
+                              height: 100.0,
+                              width: 100.0,
+                              color: Colors.lightGreenAccent,
+                              child: Center(
+                                child: Text(
+                                  conta == null ? '' : '$resto',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25),
+                                ),
+                              )),
+                        ],
+                      )
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  for (int i = 0; i <= 2; i++)
-                    ButaoConta(posicao: i, color: Colors.lightGreenAccent),
-                  ButaoConta(posicao: 3, color: Colors.blue)
-                ],
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    for (int i = 0; i <= 2; i++)
+                      ButaoConta(posicao: i, color: Colors.lightGreenAccent),
+                    ButaoConta(posicao: 3, color: Colors.blue)
+                  ],
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  for (int i = 4; i <= 6; i++)
-                    ButaoConta(posicao: i, color: Colors.lightGreenAccent),
-                  ButaoConta(posicao: 7, color: Colors.blue)
-                ],
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    for (int i = 4; i <= 6; i++)
+                      ButaoConta(posicao: i, color: Colors.lightGreenAccent),
+                    ButaoConta(posicao: 7, color: Colors.blue)
+                  ],
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  for (int i = 8; i <= 10; i++)
-                    ButaoConta(posicao: i, color: Colors.lightGreenAccent),
-                  ButaoConta(posicao: 11, color: Colors.blue)
-                ],
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    for (int i = 8; i <= 10; i++)
+                      ButaoConta(posicao: i, color: Colors.lightGreenAccent),
+                    ButaoConta(posicao: 11, color: Colors.blue)
+                  ],
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ButaoConta(posicao: 12, color: Colors.lightGreenAccent),
-                  ButaoConta(posicao: 13, color: Colors.blue)
-                ],
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ButaoConta(posicao: 12, color: Colors.lightGreenAccent),
+                    ButaoConta(posicao: 13, color: Colors.blue)
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 15,
@@ -337,28 +353,34 @@ class _MyHomePageState extends State<JogoCalcular> {
       child: Draggable(
         // Data is the value this Draggable stores.
         data: cartas[posicao],
-        feedback: Container(
-          color: color,
-          height: 100,
-          width: 100,
-          child: Center(
-              child: ImageIcon(AssetImage(
-                  'assets/numeros/${cartas[posicao] == '*' ? 'vezes' : cartas[posicao]}.png'))),
+        feedback: Expanded(
+          child: Container(
+            height: 100.0,
+            width: 100.0,
+            color: color,
+            child: Center(
+                child: ImageIcon(AssetImage(
+                    'assets/numeros/${cartas[posicao] == '*' ? 'vezes' : cartas[posicao]}.png'))),
+          ),
         ),
-        childWhenDragging: Container(
-          height: 100.0,
-          width: 100.0,
-          child: Center(
-              child: ImageIcon(AssetImage(
-                  'assets/numeros/${cartas[posicao] == '*' ? 'vezes' : cartas[posicao]}.png'))),
+        childWhenDragging: Expanded(
+          child: Container(
+            height: 100.0,
+            width: 100.0,
+            child: Center(
+                child: ImageIcon(AssetImage(
+                    'assets/numeros/${cartas[posicao] == '*' ? 'vezes' : cartas[posicao]}.png'))),
+          ),
         ),
-        child: Container(
-          height: 100.0,
-          width: 100.0,
-          color: color,
-          child: Center(
-              child: ImageIcon(AssetImage(
-                  'assets/numeros/${cartas[posicao] == '*' ? 'vezes' : cartas[posicao]}.png'))),
+        child: Expanded(
+          child: Container(
+            height: 100.0,
+            width: 100.0,
+            color: color,
+            child: Center(
+                child: ImageIcon(AssetImage(
+                    'assets/numeros/${cartas[posicao] == '*' ? 'vezes' : cartas[posicao]}.png'))),
+          ),
         ),
       ),
     );

@@ -65,7 +65,7 @@ class _NovaSenhaState extends State<NovaSenha> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 100),
+                padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: Container(
                   decoration: const BoxDecoration(
                       border: Border(
@@ -84,12 +84,13 @@ class _NovaSenhaState extends State<NovaSenha> {
                     child: ListView(
                       shrinkWrap: true,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 30,
                         ),
                         const Center(
                           child: Text(
                             'Digite seu email para que seja enviado um codigo para alterar sua senha.',
+                            textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.black),
                           ),
                         ),
@@ -97,7 +98,7 @@ class _NovaSenhaState extends State<NovaSenha> {
                           height: 10,
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 40),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: TextFormField(
                             controller: emailController,
                             textAlign: TextAlign.center,
@@ -217,7 +218,7 @@ class _NovaSenhaState extends State<NovaSenha> {
                               },
                               child: const Text('Confirmar')),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 30,
                         )
                       ],

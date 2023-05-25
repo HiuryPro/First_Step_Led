@@ -9,16 +9,16 @@ import 'Formas/circulo.dart';
 import 'Formas/quadrado.dart';
 import 'Formas/triangulo.dart';
 
-class JogoFormas extends StatefulWidget {
-  const JogoFormas({super.key});
+class JogoFormasAlternativo extends StatefulWidget {
+  const JogoFormasAlternativo({super.key});
 
   @override
-  State<JogoFormas> createState() => _JogoFormasState();
+  State<JogoFormasAlternativo> createState() => _JogoFormasAlternativoState();
 }
 
 int seed = 0;
 
-class _JogoFormasState extends State<JogoFormas> {
+class _JogoFormasAlternativoState extends State<JogoFormasAlternativo> {
   Map<String, Widget> formas = {
     'estrela': const StarWidget(color: Colors.yellow, size: 50),
     'circulo': const CircleWidget(color: Colors.red, size: 50),
@@ -54,26 +54,21 @@ class _JogoFormasState extends State<JogoFormas> {
         child: Center(
           child: Column(
             children: [
+              const Expanded(child: Text('')),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: formas.keys.map((forma) {
-                    return Expanded(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: Draggable(
-                            data: forma,
-                            childWhenDragging: Container(),
-                            feedback: formas[forma]!,
-                            child: formas[forma]!),
-                      ),
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: Draggable(
+                          data: forma,
+                          childWhenDragging: Container(),
+                          feedback: formas[forma]!,
+                          child: formas[forma]!),
                     );
                   }).toList(),
                 ),
-              ),
-              SizedBox(
-                height: 50,
               ),
               Expanded(
                 child: Row(
@@ -83,6 +78,7 @@ class _JogoFormasState extends State<JogoFormas> {
                         .toList()
                       ..shuffle(Random(seed))),
               ),
+              const Expanded(child: Text('')),
             ],
           ),
         ),
@@ -91,30 +87,27 @@ class _JogoFormasState extends State<JogoFormas> {
   }
 
   Widget _soltaForma(forma) {
-    return Expanded(
-      flex: 1,
-      child: Padding(
-        padding: const EdgeInsets.only(right: 20),
-        child: DragTarget<String>(onWillAccept: (data) {
-          print(data);
-          return data == forma;
-        }, onAccept: (data) {
-          setState(() {
-            score[forma] = true;
-          });
-        }, builder: (
-          BuildContext context,
-          List<String?> accepted,
-          List rejected,
-        ) {
-          if (score[forma] == true) {
-            return formas[forma]!;
-          } else {
-            print('Opa');
-            return zonaSoltarFormas[forma]!;
-          }
-        }),
-      ),
+    return Padding(
+      padding: const EdgeInsets.only(right: 20),
+      child: DragTarget<String>(onWillAccept: (data) {
+        print(data);
+        return data == forma;
+      }, onAccept: (data) {
+        setState(() {
+          score[forma] = true;
+        });
+      }, builder: (
+        BuildContext context,
+        List<String?> accepted,
+        List rejected,
+      ) {
+        if (score[forma] == true) {
+          return formas[forma]!;
+        } else {
+          print('Opa');
+          return zonaSoltarFormas[forma]!;
+        }
+      }),
     );
   }
 

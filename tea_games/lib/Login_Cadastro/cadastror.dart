@@ -71,19 +71,13 @@ class CadastroRState extends State<CadastroR> {
                 child: ListView(
               shrinkWrap: true,
               children: [
-                const SizedBox(
-                  height: 0,
-                ),
                 Image.asset(
                   'assets/images/Crianca_semfundo.png',
-                  width: 200,
-                  height: 200,
-                ),
-                const SizedBox(
-                  height: 20,
+                  width: 300,
+                  height: 300,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 100),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Container(
                     decoration: const BoxDecoration(
                         border: Border(
@@ -107,12 +101,12 @@ class CadastroRState extends State<CadastroR> {
                         shrinkWrap: true,
                         children: [
                           const SizedBox(
-                            height: 30,
+                            height: 20,
                           ),
                           Center(
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 40),
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: TextFormField(
                                 controller: nomeController,
                                 validator: (value) {
@@ -140,7 +134,7 @@ class CadastroRState extends State<CadastroR> {
                           Center(
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 40),
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: TextFormField(
                                 controller: dataNascController,
                                 onTap: () {
@@ -185,7 +179,7 @@ class CadastroRState extends State<CadastroR> {
                           Center(
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 40),
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: TextFormField(
                                 controller: emailController,
                                 validator: (value) {
@@ -226,7 +220,7 @@ class CadastroRState extends State<CadastroR> {
                           Center(
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 40),
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: TextFormField(
                                 controller: senhaController,
                                 validator: (value) {
@@ -332,7 +326,7 @@ class CadastroRState extends State<CadastroR> {
                             ),
                           ),
                           const SizedBox(
-                            height: 30,
+                            height: 20,
                           )
                         ],
                       ),

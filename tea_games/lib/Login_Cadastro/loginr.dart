@@ -40,17 +40,15 @@ class LoginRState extends State<LoginR> {
           ),
           child: Center(
             child: ListView(
+              shrinkWrap: true,
               children: [
                 Image.asset(
                   'assets/images/Crianca_semfundo.png',
-                  width: 300,
-                  height: 300,
-                ),
-                const SizedBox(
-                  height: 20,
+                  width: 200,
+                  height: 200,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 100),
+                  padding: EdgeInsets.only(right: 50, left: 50),
                   child: Container(
                     decoration: const BoxDecoration(
                         border: Border(
@@ -77,7 +75,7 @@ class LoginRState extends State<LoginR> {
                             height: 30,
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: TextFormField(
                               controller: _emailController,
                               textAlign: TextAlign.center,
@@ -112,9 +110,9 @@ class LoginRState extends State<LoginR> {
                               },
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 15),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: TextFormField(
                               controller: _passwordController,
                               obscureText: true,
@@ -154,7 +152,7 @@ class LoginRState extends State<LoginR> {
                                   child: Text('Esqueceu a senha?'),
                                 ),
                               )),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 15),
                           Align(
                             child: ElevatedButton(
                               onPressed: () async {

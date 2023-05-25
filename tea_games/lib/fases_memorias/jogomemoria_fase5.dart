@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +57,7 @@ class _JogoMemoriaFase5State extends State<JogoMemoriaFase5> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
     cartas.shuffle();
     listaColor = List.filled(cartas.length, null);
     for (int i = 0; i < cartas.length; i++) {
