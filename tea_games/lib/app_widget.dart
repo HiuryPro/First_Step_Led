@@ -3,12 +3,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tea_games/Auxiliadores/emailteste.dart';
 import 'package:tea_games/Login_Cadastro/confirmarcadastro.dart';
 import 'package:tea_games/Login_Cadastro/novasenha.dart';
+import 'package:tea_games/alfabeto.dart';
 import 'package:tea_games/fases_memorias/fase_menu_memoria.dart';
 import 'package:tea_games/home.dart';
 import 'package:tea_games/jogocalcular.dart';
 import 'package:tea_games/jogoformas.dart';
 import 'package:tea_games/jogomemoria.dart';
-import 'package:tea_games/letras.dart';
 import 'package:tea_games/Auxiliadores/testetts.dart';
 
 import 'Login_Cadastro/cadastror.dart';
@@ -28,6 +28,7 @@ import 'fases_pareamento/jogopareamento_fase5.dart';
 import 'fases_pareamento/jogopareamento_fase6.dart';
 import 'jogoformasalternativo.dart';
 import 'jogopareamento.dart';
+import 'numeros.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/loginr',
+      initialRoute: '/alfabeto',
       routes: {
         '/confirmarCadastro': (context) => const ConfirmarCadastro(),
         '/novasenha': (context) => const NovaSenha(),
@@ -79,7 +80,10 @@ class MyApp extends StatelessWidget {
             const JogoPareamentoFase6(title: 'Teste'),
         '/fasemenupareamento': (context) => const MenuFasePareamento(),
         '/jogocalcular': (context) => const JogoCalcular(title: 're'),
-        '/letras': (context) => const Letras(title: 're'),
+        '/numeros': (context) => const Numeros(
+              title: 're',
+            ),
+        '/alfabeto': (context) => const Alfabeto(title: 're'),
         '/tts': (context) => const Testetts(),
         '/loginr': (context) => const LoginR(),
         '/cadastror': (context) => const CadastroR(),

@@ -8,6 +8,7 @@ enum TtsState { playing, stopped, paused, continued }
 class Fala {
   static var instance = Fala();
   static var instance2 = Fala();
+  static var instance3 = Fala();
 
   late FlutterTts flutterTts;
   final audioPlayer = AudioPlayer();
