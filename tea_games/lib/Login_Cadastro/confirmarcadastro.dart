@@ -79,7 +79,7 @@ class _ConfirmarCadastroState extends State<ConfirmarCadastro> {
                               ),
                               const Center(
                                 child: Text(
-                                    'Obs: Essa ação é necessaria apenas uma vez, depois disto você terá total acesso ao Atlas Veterinário',
+                                    'Obs: Essa ação é necessaria apenas uma vez, depois disto você terá total acesso ao TEA Games',
                                     style: TextStyle(
                                       color: Colors.black,
                                     )),
@@ -168,7 +168,7 @@ class _ConfirmarCadastroState extends State<ConfirmarCadastro> {
                                           await mensagem.mensagem(
                                               context,
                                               'Conta Ativada!!',
-                                              'Agora você tem acesso ao Atlas Veterinário',
+                                              'Agora você tem acesso ao TEA Games',
                                               '/home');
                                         } catch (e) {
                                           print(e);

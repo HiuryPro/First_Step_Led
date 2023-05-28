@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../Auxiliadores/app_controller.dart';
+import '../DadosDB/crud.dart';
+import '../Formas/estrela.dart';
 
 class MenuFasePareamento extends StatefulWidget {
   const MenuFasePareamento({super.key});
@@ -10,13 +12,75 @@ class MenuFasePareamento extends StatefulWidget {
 }
 
 class _MenuFasePareamentoState extends State<MenuFasePareamento> {
+  Map<String, bool> fases = {
+    'Fase 1': false,
+    'Fase 2': false,
+    'Fase 3': false,
+    'Fase 4': false,
+    'Fase 5': false,
+    'Fase 6': false
+  };
+  List<Map> listaFases = [{}, {}];
+  CRUD crud = CRUD();
   @override
   void initState() {
-    // TODO: implement initState
+    Future.delayed(Duration.zero, () async {
+      int id = AppController.instance.idUsuario;
+      List resultado = await crud.select(
+          query: 'Select * from fases_pareamento where ID_USUARIO = $id');
+
+      resultado[0].removeWhere((key, value) => key == 'ID_USUARIO');
+      for (var value in resultado[0].keys.toList()) {
+        String fase = value.toString().toLowerCase();
+        fase = fase.replaceRange(0, 1, 'F');
+        fase = fase.replaceFirst(RegExp(r'_'), ' ');
+
+        if (resultado[0][value] == 0) {
+          fases[fase] = false;
+        } else {
+          fases[fase] = true;
+        }
+        setState(() {
+          listaFases = [
+            Map.fromEntries(fases.entries.toList().getRange(0, 3)),
+            Map.fromEntries(fases.entries.toList().getRange(3, 6))
+          ];
+        });
+      }
+    });
     super.initState();
     Future.delayed(Duration.zero, () async {
       await AppController.instance.backgroundMusic('pareamento');
     });
+  }
+
+  List<Widget> fasesColuna(int index) {
+    return listaFases[index].keys.map((value) {
+      return Expanded(
+          child: Padding(
+        padding: EdgeInsets.only(bottom: 5),
+        child: ElevatedButton(
+            onPressed: () {
+              print(
+                  "/pareamento${value.toString().replaceFirst(RegExp(r' '), '')}");
+              Navigator.of(context).pushNamed(
+                  "/pareamento${value.toString().replaceFirst(RegExp(r' '), '')}");
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  value,
+                  style: const TextStyle(fontSize: 20),
+                ),
+                StarWidget(
+                    color:
+                        listaFases[index][value] ? Colors.yellow : Colors.grey,
+                    size: 30)
+              ],
+            )),
+      ));
+    }).toList();
   }
 
   Widget body() {
@@ -30,74 +94,16 @@ class _MenuFasePareamentoState extends State<MenuFasePareamento> {
             children: [
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed("/pareamentoFase1");
-                          },
-                          child: const Text('Fase 1')),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Expanded(
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed("/pareamentoFase2");
-                          },
-                          child: const Text('Fase 2')),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Expanded(
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed("/pareamentoFase3");
-                          },
-                          child: const Text('Fase 3')),
-                    ),
-                  ],
-                ),
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: fasesColuna(0)),
               ),
               const SizedBox(
                 width: 5,
               ),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed("/pareamentoFase4");
-                          },
-                          child: const Text('Fase 4')),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Expanded(
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed("/pareamentoFase5");
-                          },
-                          child: const Text('Fase 5')),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Expanded(
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed("/pareamentoFase6");
-                          },
-                          child: const Text('Fase 6')),
-                    ),
-                  ],
-                ),
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: fasesColuna(1)),
               ),
             ],
           ),

@@ -4,6 +4,7 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 
 import '../Auxiliadores/app_controller.dart';
+import '../DadosDB/crud.dart';
 
 class JogoMemoriaFase2 extends StatefulWidget {
   const JogoMemoriaFase2({super.key, required this.title});
@@ -20,6 +21,8 @@ class _JogoMemoriaFase2State extends State<JogoMemoriaFase2> {
   final GlobalKey<ScaffoldState> buttonkeyS = GlobalKey();
   GlobalKey keyButton = GlobalKey();
   final audioPlayer = AudioPlayer();
+  CRUD crud = CRUD();
+
   List cartas = [
     "abacate",
     "abacate",
@@ -158,6 +161,11 @@ class _JogoMemoriaFase2State extends State<JogoMemoriaFase2> {
                                   await piscaImagens();
                                 }
 
+                                int id = AppController.instance.idUsuario;
+                                await crud.update(
+                                    query:
+                                        'Update fases_memoria set FASE_2 = 1 where ID_USUARIO = $id',
+                                    lista: []);
                                 await Future.delayed(Duration(seconds: 1));
                                 cardKeys2.clear();
                                 Navigator.of(context).pushReplacementNamed(
@@ -202,7 +210,12 @@ class _JogoMemoriaFase2State extends State<JogoMemoriaFase2> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pushNamed('/fasemenumemoria');
+          },
+        ),
       ),
       body: body(),
     );

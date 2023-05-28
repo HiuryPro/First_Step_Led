@@ -4,6 +4,7 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 
 import '../Auxiliadores/app_controller.dart';
+import '../DadosDB/crud.dart';
 
 class JogoMemoriaFase1 extends StatefulWidget {
   const JogoMemoriaFase1({super.key, required this.title});
@@ -22,6 +23,8 @@ class _JogoMemoriaFase1State extends State<JogoMemoriaFase1> {
     "abacate",
     "abacate",
   ];
+
+  CRUD crud = CRUD();
 
   List<Color?> listaColor = [
     null,
@@ -151,6 +154,11 @@ class _JogoMemoriaFase1State extends State<JogoMemoriaFase1> {
                                 for (var i = 0; i < 3; i++) {
                                   await piscaImagens();
                                 }
+                                int id = AppController.instance.idUsuario;
+                                await crud.update(
+                                    query:
+                                        'Update fases_memoria set FASE_1 = 1 where ID_USUARIO = $id',
+                                    lista: []);
 
                                 await Future.delayed(Duration(seconds: 1));
                                 Navigator.of(context)
@@ -195,7 +203,12 @@ class _JogoMemoriaFase1State extends State<JogoMemoriaFase1> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pushNamed('/fasemenumemoria');
+          },
+        ),
       ),
       body: body(),
     );

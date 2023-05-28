@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 
 import '../Auxiliadores/app_controller.dart';
+import '../DadosDB/crud.dart';
 
 class JogoPareamentoFase3 extends StatefulWidget {
   const JogoPareamentoFase3({super.key, required this.title});
@@ -14,6 +15,7 @@ class JogoPareamentoFase3 extends StatefulWidget {
 
 class _MyHomePageState extends State<JogoPareamentoFase3> {
   final audioPlayer = AudioPlayer();
+  CRUD crud = CRUD();
   int fase = 3;
   List cartas = [
     "abacate",
@@ -128,6 +130,11 @@ class _MyHomePageState extends State<JogoPareamentoFase3> {
                               for (var i = 0; i < 3; i++) {
                                 await piscaImagens();
                               }
+                              int id = AppController.instance.idUsuario;
+                              await crud.update(
+                                  query:
+                                      'Update fases_pareamento set FASE_3 = 1 where ID_USUARIO = $id',
+                                  lista: []);
 
                               await Future.delayed(Duration(seconds: 1));
 
@@ -162,7 +169,12 @@ class _MyHomePageState extends State<JogoPareamentoFase3> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pushNamed('/fasemenupareamento');
+          },
+        ),
       ),
       body: body(),
     );

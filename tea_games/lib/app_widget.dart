@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/alfabeto',
+      initialRoute: '/loginr',
       routes: {
         '/confirmarCadastro': (context) => const ConfirmarCadastro(),
         '/novasenha': (context) => const NovaSenha(),

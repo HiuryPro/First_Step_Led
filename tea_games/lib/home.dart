@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
               ),
               ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/fasepareamento');
+                    Navigator.of(context).pushNamed('/fasemenupareamento');
                   },
                   child: const Text("Menu de Fases do Jogo de Pareamento")),
               const SizedBox(
@@ -93,6 +93,18 @@ class _HomeState extends State<Home> {
                     }
                   },
                   child: const Text("Jogo de Formas")),
+              const SizedBox(height: 15),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/alfabeto');
+                  },
+                  child: const Text("Jogo das Letras")),
+              const SizedBox(height: 15),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/numeros');
+                  },
+                  child: const Text("Jogo dos Números")),
             ],
           ),
         ),
