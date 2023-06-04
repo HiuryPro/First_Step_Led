@@ -72,6 +72,15 @@ class _MyHomePageState extends State<JogoPareamento> {
     listaColor = List.filled(cartas.length, null);
 
     Future.delayed(Duration.zero, () async {
+      int id = AppController.instance.idUsuario;
+      List resultado = [];
+      CRUD crud = CRUD();
+      resultado = await crud.select(
+          query: 'Select JOGO_PAREAMENTO from score where ID_USUARIO = $id');
+      setState(() {
+        AppController.instance.scoreMaximo = resultado[0]['JOGO_PAREAMENTO'];
+      });
+
       await AppController.instance.backgroundMusic('pareamento');
     });
   }

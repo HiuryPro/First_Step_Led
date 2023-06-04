@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CRUD {
-  final String ip = "192.168.1.9";
+  final String ip = "192.168.1.6";
 
   select({required String query}) async {
     dynamic body;

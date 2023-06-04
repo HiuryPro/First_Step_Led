@@ -75,8 +75,18 @@ class _JogoMemoriaState extends State<JogoMemoria> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
+      int id = AppController.instance.idUsuario;
+      List resultado = [];
+      CRUD crud = CRUD();
+      resultado = await crud.select(
+          query: 'Select JOGO_MEMORIA from score where ID_USUARIO = $id');
+      setState(() {
+        AppController.instance.scoreMaximo = resultado[0]['JOGO_MEMORIA'];
+      });
+
       await AppController.instance.backgroundMusic('memoria');
     });
+
     cartas.shuffle();
     listaColor = List.filled(cartas.length, null);
     for (int i = 0; i < cartas.length; i++) {

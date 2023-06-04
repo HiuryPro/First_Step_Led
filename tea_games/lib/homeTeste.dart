@@ -4,23 +4,25 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tea_games/Auxiliadores/app_controller.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class HomeTeste extends StatefulWidget {
+  const HomeTeste({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeTeste> createState() => _HomeTesteState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeTesteState extends State<HomeTeste> {
   Map<String, List> jogos = {
     'Menu de Fases do Jogo da Memória': [
       '/fasemenumemoria',
       [
         const ImageIcon(
           AssetImage('assets/images/cardsIcon.png'),
+          size: 70,
         ),
         const Icon(
           Icons.grid_view,
+          size: 70,
         )
       ]
     ],
@@ -29,9 +31,11 @@ class _HomeState extends State<Home> {
       [
         const ImageIcon(
           AssetImage('assets/images/fruitIcon.png'),
+          size: 70,
         ),
         const Icon(
           Icons.grid_view,
+          size: 70,
         )
       ]
     ],
@@ -40,6 +44,7 @@ class _HomeState extends State<Home> {
       [
         const ImageIcon(
           AssetImage('assets/images/cardsIcon.png'),
+          size: 70,
         )
       ]
     ],
@@ -48,6 +53,7 @@ class _HomeState extends State<Home> {
       [
         const ImageIcon(
           AssetImage('assets/images/fruitIcon.png'),
+          size: 70,
         )
       ]
     ],
@@ -56,6 +62,7 @@ class _HomeState extends State<Home> {
       [
         const Icon(
           Icons.calculate,
+          size: 70,
         )
       ]
     ],
@@ -64,6 +71,7 @@ class _HomeState extends State<Home> {
       [
         const Icon(
           Icons.interests,
+          size: 70,
         )
       ]
     ],
@@ -72,6 +80,7 @@ class _HomeState extends State<Home> {
       [
         const Icon(
           Icons.abc,
+          size: 70,
         )
       ]
     ],
@@ -80,12 +89,9 @@ class _HomeState extends State<Home> {
       [
         const Icon(
           Icons.pin,
+          size: 70,
         ),
       ]
-    ],
-    'Jogo de Animais': [
-      '/jogoanimal',
-      [const Icon(Icons.pets)]
     ]
   };
 
@@ -125,15 +131,12 @@ class _HomeState extends State<Home> {
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               mainAxisSpacing: 5,
                               crossAxisSpacing: 5,
-                              crossAxisCount: 5),
+                              crossAxisCount: 4),
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           color: Colors.blue,
                           child: ElevatedButton(
-                              onPressed: () {
-                                String key = jogos.keys.toList()[index];
-                                Navigator.of(context).pushNamed(jogos[key]![0]);
-                              },
+                              onPressed: () {},
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [

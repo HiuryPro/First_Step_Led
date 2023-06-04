@@ -107,8 +107,8 @@ class _MyHomePageState extends State<JogoCalcular> {
                         List<dynamic> rejected,
                       ) {
                         return Container(
-                          height: 100.0,
-                          width: 100.0,
+                          height: 90,
+                          width: 90,
                           color: Colors.lightGreenAccent,
                           child: Center(
                               child: num1 == null
@@ -147,8 +147,8 @@ class _MyHomePageState extends State<JogoCalcular> {
                         List<dynamic> rejected,
                       ) {
                         return Container(
-                          height: 100.0,
-                          width: 100.0,
+                          height: 90,
+                          width: 90,
                           color: Colors.blue,
                           child: Center(
                               child: operador == null
@@ -206,8 +206,8 @@ class _MyHomePageState extends State<JogoCalcular> {
                         List<dynamic> rejected,
                       ) {
                         return Container(
-                          height: 100.0,
-                          width: 100.0,
+                          height: 90,
+                          width: 90,
                           color: Colors.lightGreenAccent,
                           child: Center(
                               child: num2 == null
@@ -240,8 +240,8 @@ class _MyHomePageState extends State<JogoCalcular> {
                       width: 10,
                     ),
                     Container(
-                      height: 100.0,
-                      width: 100.0,
+                      height: 90,
+                      width: 90,
                       color: Colors.lightGreenAccent,
                       child: const Center(
                           child: ImageIcon(AssetImage('assets/numeros/=.png'))),
@@ -250,8 +250,8 @@ class _MyHomePageState extends State<JogoCalcular> {
                       width: 10,
                     ),
                     Container(
-                        height: 100.0,
-                        width: 100.0,
+                        height: 90,
+                        width: 90,
                         color: Colors.lightGreenAccent,
                         child: Center(
                           child: Text(
@@ -274,8 +274,8 @@ class _MyHomePageState extends State<JogoCalcular> {
                             width: 10,
                           ),
                           Container(
-                              height: 100.0,
-                              width: 100.0,
+                              height: 90,
+                              width: 90,
                               color: Colors.lightGreenAccent,
                               child: Center(
                                 child: Text(
@@ -298,8 +298,8 @@ class _MyHomePageState extends State<JogoCalcular> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     for (int i = 0; i <= 2; i++)
-                      ButaoConta(posicao: i, color: Colors.lightGreenAccent),
-                    ButaoConta(posicao: 3, color: Colors.blue)
+                      butaoConta(posicao: i, color: Colors.lightGreenAccent),
+                    butaoConta(posicao: 3, color: Colors.blue)
                   ],
                 ),
               ),
@@ -308,8 +308,8 @@ class _MyHomePageState extends State<JogoCalcular> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     for (int i = 4; i <= 6; i++)
-                      ButaoConta(posicao: i, color: Colors.lightGreenAccent),
-                    ButaoConta(posicao: 7, color: Colors.blue)
+                      butaoConta(posicao: i, color: Colors.lightGreenAccent),
+                    butaoConta(posicao: 7, color: Colors.blue)
                   ],
                 ),
               ),
@@ -318,8 +318,8 @@ class _MyHomePageState extends State<JogoCalcular> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     for (int i = 8; i <= 10; i++)
-                      ButaoConta(posicao: i, color: Colors.lightGreenAccent),
-                    ButaoConta(posicao: 11, color: Colors.blue)
+                      butaoConta(posicao: i, color: Colors.lightGreenAccent),
+                    butaoConta(posicao: 11, color: Colors.blue)
                   ],
                 ),
               ),
@@ -327,8 +327,8 @@ class _MyHomePageState extends State<JogoCalcular> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    ButaoConta(posicao: 12, color: Colors.lightGreenAccent),
-                    ButaoConta(posicao: 13, color: Colors.blue)
+                    butaoConta(posicao: 12, color: Colors.lightGreenAccent),
+                    butaoConta(posicao: 13, color: Colors.blue)
                   ],
                 ),
               ),
@@ -347,39 +347,41 @@ class _MyHomePageState extends State<JogoCalcular> {
             ])));
   }
 
-  Padding ButaoConta({required int posicao, required Color color}) {
+  Padding butaoConta({required int posicao, required Color color}) {
     return Padding(
       padding: const EdgeInsets.only(right: 3, bottom: 3),
-      child: Draggable(
-        // Data is the value this Draggable stores.
-        data: cartas[posicao],
-        feedback: Expanded(
-          child: Container(
-            height: 100.0,
-            width: 100.0,
-            color: color,
-            child: Center(
-                child: ImageIcon(AssetImage(
-                    'assets/numeros/${cartas[posicao] == '*' ? 'vezes' : cartas[posicao]}.png'))),
+      child: LayoutBuilder(
+        builder: (context, constraints) => Draggable(
+          // Data is the value this Draggable stores.
+          data: cartas[posicao],
+          feedback: Expanded(
+            child: Container(
+              height: 90,
+              width: 90,
+              color: color,
+              child: Center(
+                  child: ImageIcon(AssetImage(
+                      'assets/numeros/${cartas[posicao] == '*' ? 'vezes' : cartas[posicao]}.png'))),
+            ),
           ),
-        ),
-        childWhenDragging: Expanded(
-          child: Container(
-            height: 100.0,
-            width: 100.0,
-            child: Center(
-                child: ImageIcon(AssetImage(
-                    'assets/numeros/${cartas[posicao] == '*' ? 'vezes' : cartas[posicao]}.png'))),
+          childWhenDragging: Expanded(
+            child: Container(
+              height: 90,
+              width: 90,
+              child: Center(
+                  child: ImageIcon(AssetImage(
+                      'assets/numeros/${cartas[posicao] == '*' ? 'vezes' : cartas[posicao]}.png'))),
+            ),
           ),
-        ),
-        child: Expanded(
-          child: Container(
-            height: 100.0,
-            width: 100.0,
-            color: color,
-            child: Center(
-                child: ImageIcon(AssetImage(
-                    'assets/numeros/${cartas[posicao] == '*' ? 'vezes' : cartas[posicao]}.png'))),
+          child: Expanded(
+            child: Container(
+              height: 90,
+              width: 90,
+              color: color,
+              child: Center(
+                  child: ImageIcon(AssetImage(
+                      'assets/numeros/${cartas[posicao] == '*' ? 'vezes' : cartas[posicao]}.png'))),
+            ),
           ),
         ),
       ),

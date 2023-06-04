@@ -60,8 +60,6 @@ class _MenuFaseMemoriaState extends State<MenuFaseMemoria> {
         padding: EdgeInsets.only(bottom: 5),
         child: ElevatedButton(
             onPressed: () {
-              print(
-                  "/memoria${value.toString().replaceFirst(RegExp(r' '), '')}");
               Navigator.of(context).pushNamed(
                   "/memoria${value.toString().replaceFirst(RegExp(r' '), '')}");
             },
