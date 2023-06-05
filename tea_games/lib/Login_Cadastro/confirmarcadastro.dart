@@ -17,6 +17,13 @@ class _ConfirmarCadastroState extends State<ConfirmarCadastro> {
   bool codigoCorreto = true;
 
   CRUD crud = CRUD();
+
+  @override
+  void initState() {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
+    super.initState();
+  }
+
   Widget body() {
     return SizedBox(
         width: MediaQuery.of(context).size.width,

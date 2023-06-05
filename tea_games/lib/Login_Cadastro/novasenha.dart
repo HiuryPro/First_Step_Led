@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../Auxiliadores/mensagens.dart';
 import '../Auxiliadores/telacarregamento.dart';
@@ -29,6 +30,7 @@ class _NovaSenhaState extends State<NovaSenha> {
   late TelaCarregamento telaCarregamento;
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
     super.initState();
     setState(() {
       telaCarregamento = TelaCarregamento();

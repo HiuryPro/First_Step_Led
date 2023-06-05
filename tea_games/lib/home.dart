@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tea_games/Auxiliadores/app_controller.dart';
 
 class Home extends StatefulWidget {
@@ -91,6 +92,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
     super.initState();
     Future.delayed(Duration.zero, () async {
       await AppController.instance.backgroundMusic('home');
@@ -137,7 +139,10 @@ class _HomeState extends State<Home> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(jogos.keys.toList()[index]),
+                                  Text(
+                                    jogos.keys.toList()[index],
+                                    textAlign: TextAlign.center,
+                                  ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children:

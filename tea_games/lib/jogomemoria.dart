@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
@@ -73,6 +74,7 @@ class _JogoMemoriaState extends State<JogoMemoria> {
 
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
     super.initState();
     Future.delayed(Duration.zero, () async {
       int id = AppController.instance.idUsuario;
@@ -81,7 +83,9 @@ class _JogoMemoriaState extends State<JogoMemoria> {
       resultado = await crud.select(
           query: 'Select JOGO_MEMORIA from score where ID_USUARIO = $id');
       setState(() {
-        AppController.instance.scoreMaximo = resultado[0]['JOGO_MEMORIA'];
+        print(resultado);
+        scoreMaximo =
+            AppController.instance.scoreMaximo = resultado[0]['JOGO_MEMORIA'];
       });
 
       await AppController.instance.backgroundMusic('memoria');

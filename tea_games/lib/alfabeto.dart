@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:tea_games/Auxiliadores/textoprafala.dart';
 
+import 'Auxiliadores/app_controller.dart';
 import 'Auxiliadores/buttonanmation.dart';
 
 class Alfabeto extends StatefulWidget {
@@ -62,6 +63,10 @@ class _MyHomePageState extends State<Alfabeto> {
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
     listaA = [alfabeto, alfabeto2, alfabeto3];
     super.initState();
+
+    Future.delayed(Duration.zero, () async {
+      await AppController.instance.backgroundMusic('alfabeto');
+    });
   }
 
   Widget body() {
@@ -227,8 +232,22 @@ class _MyHomePageState extends State<Alfabeto> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        leading: IconButton(
+            onPressed: () async {
+              await AppController.instance.backgroundMusic('home');
+              Navigator.of(context).pushNamed('/home');
+            },
+            icon: const Icon(Icons.arrow_back)),
       ),
-      body: body(),
+      body: Stack(
+        children: [
+          SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Image.asset('assets/images/letras.jpg')),
+          body(),
+        ],
+      ),
     );
   }
 }

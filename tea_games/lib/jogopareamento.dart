@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 
 import 'Auxiliadores/app_controller.dart';
@@ -67,6 +68,7 @@ class _MyHomePageState extends State<JogoPareamento> {
 
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
     super.initState();
     cartas.shuffle();
     listaColor = List.filled(cartas.length, null);

@@ -26,7 +26,6 @@ import 'fases_pareamento/jogopareamento_fase3.dart';
 import 'fases_pareamento/jogopareamento_fase4.dart';
 import 'fases_pareamento/jogopareamento_fase5.dart';
 import 'fases_pareamento/jogopareamento_fase6.dart';
-import 'homeTeste.dart';
 import 'jogoanimal.dart';
 import 'jogoformasalternativo.dart';
 import 'jogopareamento.dart';
@@ -50,13 +49,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/home',
+      initialRoute: '/loginr',
       routes: {
         '/confirmarCadastro': (context) => const ConfirmarCadastro(),
         '/novasenha': (context) => const NovaSenha(),
         '/testes': (context) => const TesteTela(),
         '/home': (context) => const Home(),
-        '/homeTeste': (context) => const HomeTeste(),
         '/pareamento': (context) =>
             const JogoPareamento(title: 'Flutter Demo Home Page'),
         '/memoria': (context) => const JogoMemoria(

@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../Auxiliadores/app_controller.dart';
 import '../DadosDB/crud.dart';
@@ -20,6 +21,12 @@ class LoginRState extends State<LoginR> {
   CRUD crud = CRUD();
 
   bool emailCorreto = true;
+
+  @override
+  void initState() {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

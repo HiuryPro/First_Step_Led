@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:tea_games/Auxiliadores/textoprafala.dart';
 
+import 'Auxiliadores/app_controller.dart';
 import 'Auxiliadores/buttonanmation.dart';
 
 class Numeros extends StatefulWidget {
@@ -36,6 +37,9 @@ class _MyHomePageState extends State<Numeros> {
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
+    Future.delayed(Duration.zero, () async {
+      await AppController.instance.backgroundMusic('numero');
+    });
   }
 
   Widget body() {
@@ -189,8 +193,22 @@ class _MyHomePageState extends State<Numeros> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        leading: IconButton(
+            onPressed: () async {
+              await AppController.instance.backgroundMusic('home');
+              Navigator.of(context).pushNamed('/home');
+            },
+            icon: const Icon(Icons.arrow_back)),
       ),
-      body: body(),
+      body: Stack(
+        children: [
+          SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Image.asset('assets/images/numeros.jpg')),
+          body(),
+        ],
+      ),
     );
   }
 }

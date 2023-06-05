@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tea_games/Formas/estrela.dart';
 import 'package:tea_games/Formas/formax.dart';
 import 'package:tea_games/Formas/losango.dart';
@@ -44,6 +45,11 @@ class _JogoFormasState extends State<JogoFormas> {
   };
 
   Map<String, bool> score = {};
+  @override
+  void initState() {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
+    super.initState();
+  }
 
   Widget body() {
     return SizedBox(

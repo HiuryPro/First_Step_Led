@@ -210,7 +210,11 @@ class _JogoMemoriaFase1State extends State<JogoMemoriaFase1> {
           },
         ),
       ),
-      body: body(),
+      body: Stack(
+        children: [
+          body(),
+        ],
+      ),
     );
   }
 }

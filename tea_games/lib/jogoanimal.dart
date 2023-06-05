@@ -1,5 +1,7 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'Auxiliadores/app_controller.dart';
 
 class Animal extends StatefulWidget {
   const Animal({Key? key}) : super(key: key);
@@ -9,18 +11,20 @@ class Animal extends StatefulWidget {
 }
 
 class AnimalState extends State<Animal> {
-  List<String> animalNames = [
-    'C A C H O R R O',
-    'G A T O',
-    'E L E F A N T E',
-    'Z E B R A',
-    'P A T O',
-    'V A C A',
-    'L E Ã O',
-    'G I R A F A',
-    'T I G R E',
-    'C O B R A'
-  ];
+  Map<String, int> animalNames = {
+    'C A C H O R R O': 0,
+    'G A T O': 1,
+    'E L E F A N T E': 2,
+    'Z E B R A': 3,
+    'P A T O': 4,
+    'V A C A': 5,
+    'L E Ã O': 6,
+    'G I R A F A': 7,
+    'T I G R E': 8,
+    'C O B R A': 9
+  };
+
+  List animais = [''];
 
   List<String> animalImages = [
     'assets/images/animal/dog.png',
@@ -35,16 +39,38 @@ class AnimalState extends State<Animal> {
     'assets/images/animal/snake.png'
   ];
 
-  int phaseNumber = 1;
+  int phaseNumber = 0;
   int score = 0;
   int correctAnswerIndex = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      animais = animalNames.keys.toList();
+      animais.shuffle();
+      String key = animais[phaseNumber];
+      correctAnswerIndex = animalNames[key]!;
+    });
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
+    Future.delayed(Duration.zero, () async {
+      await AppController.instance.backgroundMusic('animal');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(animalNames[phaseNumber - 1]),
+        title: Text(animais[phaseNumber]),
         centerTitle: true,
+        leading: IconButton(
+            onPressed: () async {
+              await AppController.instance.backgroundMusic('home');
+              Navigator.of(context).pushNamed('/home');
+            },
+            icon: const Icon(Icons.arrow_back)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -52,8 +78,8 @@ class AnimalState extends State<Animal> {
           children: [
             Expanded(
               child: GridView.count(
-                crossAxisCount: 2,
-                children: List.generate(4, (index) {
+                crossAxisCount: 5,
+                children: List.generate(10, (index) {
                   return InkWell(
                     onTap: () {
                       setState(() {
@@ -64,10 +90,6 @@ class AnimalState extends State<Animal> {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: const Text('Resposta Correta'),
-                                content: Image.asset(
-                                  'assets/images/animal/correct.png',
-                                  height: 100,
-                                ),
                                 actions: <Widget>[
                                   TextButton(
                                     onPressed: () {
@@ -86,10 +108,6 @@ class AnimalState extends State<Animal> {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: const Text('Resposta Incorreta'),
-                                content: Image.asset(
-                                  'assets/images/animal/incorrect.png',
-                                  height: 100,
-                                ),
                                 actions: <Widget>[
                                   TextButton(
                                     onPressed: () {
@@ -137,10 +155,11 @@ class AnimalState extends State<Animal> {
     setState(() {
       phaseNumber++;
       if (phaseNumber > animalNames.length) {
-        phaseNumber = 1;
-        score = 0;
+        phaseNumber = 0;
+        animais.shuffle();
       }
-      correctAnswerIndex = Random().nextInt(4);
+      String key = animais[phaseNumber];
+      correctAnswerIndex = animalNames[key]!;
     });
   }
 }

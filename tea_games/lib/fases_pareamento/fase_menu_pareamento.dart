@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../Auxiliadores/app_controller.dart';
 import '../DadosDB/crud.dart';
@@ -48,6 +49,7 @@ class _MenuFasePareamentoState extends State<MenuFasePareamento> {
         });
       }
     });
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
     super.initState();
     Future.delayed(Duration.zero, () async {
       await AppController.instance.backgroundMusic('pareamento');
