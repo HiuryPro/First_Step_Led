@@ -7,8 +7,7 @@ import 'package:tea_games/Auxiliadores/textoprafala.dart';
 import 'Auxiliadores/app_controller.dart';
 
 class JogoCalcular extends StatefulWidget {
-  const JogoCalcular({super.key, required this.title});
-  final String title;
+  const JogoCalcular({super.key});
 
   @override
   State<JogoCalcular> createState() => _MyHomePageState();

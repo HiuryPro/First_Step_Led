@@ -57,4 +57,12 @@ class AppController extends ChangeNotifier {
     await audioPlayer.load();
     await audioPlayer.play();
   }
+
+  Future<void> falaAudio(String resposta) async {
+    await audioPlayer.setAsset('assets/sounds/$resposta',
+        initialPosition: Duration.zero);
+    await audioPlayer.setVolume(1.0);
+    await audioPlayer.load();
+    await audioPlayer.play();
+  }
 }

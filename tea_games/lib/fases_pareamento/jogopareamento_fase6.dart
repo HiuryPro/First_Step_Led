@@ -6,8 +6,7 @@ import '../Auxiliadores/app_controller.dart';
 import '../DadosDB/crud.dart';
 
 class JogoPareamentoFase6 extends StatefulWidget {
-  const JogoPareamentoFase6({super.key, required this.title});
-  final String title;
+  const JogoPareamentoFase6({super.key});
 
   @override
   State<JogoPareamentoFase6> createState() => _MyHomePageState();
@@ -129,62 +128,71 @@ class _MyHomePageState extends State<JogoPareamentoFase6> {
     return SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Expanded(
-                  child: GridView.builder(
-                    itemCount: cartas.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 10),
-                    itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                        onTap: () async {
-                          if (primeiraCartaSelecionada == -1 ||
-                              segundaCartaSelecionada == -1) {
-                            if (listaColor[index] == null) {
-                              verificarPareamento(index);
-                              setState(() {});
-                            }
-
-                            if (!listaColor.contains(null)) {
-                              for (var i = 0; i < 3; i++) {
-                                await piscaImagens();
+        child: Container(
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 1,
+                blurStyle: BlurStyle.normal // Shadow position
+                ),
+          ]),
+          child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: GridView.builder(
+                      itemCount: cartas.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 10),
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          onTap: () async {
+                            if (primeiraCartaSelecionada == -1 ||
+                                segundaCartaSelecionada == -1) {
+                              if (listaColor[index] == null) {
+                                verificarPareamento(index);
+                                setState(() {});
                               }
-                              int id = AppController.instance.idUsuario;
-                              await crud.update(
-                                  query:
-                                      'Update fases_pareamento set FASE_6 = 1 where ID_USUARIO = $id',
-                                  lista: []);
-                              await Future.delayed(Duration(seconds: 1));
 
-                              Navigator.of(context)
-                                  .pushNamed("/fasemenupareamento");
+                              if (!listaColor.contains(null)) {
+                                for (var i = 0; i < 3; i++) {
+                                  await piscaImagens();
+                                }
+                                int id = AppController.instance.idUsuario;
+                                await crud.update(
+                                    query:
+                                        'Update fases_pareamento set FASE_6 = 1 where ID_USUARIO = $id',
+                                    lista: []);
+                                await Future.delayed(Duration(seconds: 1));
+
+                                Navigator.of(context)
+                                    .pushNamed("/fasemenupareamento");
+                              }
                             }
-                          }
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: listaColor[index],
-                          ),
-                          child: Center(
-                            child: IconButton(
-                              iconSize: 70,
-                              icon: Image.asset(
-                                  'assets/images/frutas/${cartas[index]}.png'),
-                              onPressed: null,
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: listaColor[index],
+                            ),
+                            child: Center(
+                              child: IconButton(
+                                iconSize: 70,
+                                icon: Image.asset(
+                                    'assets/images/frutas/${cartas[index]}.png'),
+                                onPressed: null,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                )
-              ],
-            )));
+                        );
+                      },
+                    ),
+                  )
+                ],
+              )),
+        ));
   }
 
   @override
@@ -197,8 +205,22 @@ class _MyHomePageState extends State<JogoPareamentoFase6> {
             Navigator.of(context).pushNamed('/fasemenupareamento');
           },
         ),
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.black.withOpacity(0.2),
       ),
-      body: body(),
+      body: Stack(
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Image.asset(
+              'assets/images/pareamento.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
+          body(),
+        ],
+      ),
     );
   }
 }

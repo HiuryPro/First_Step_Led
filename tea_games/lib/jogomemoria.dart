@@ -7,8 +7,7 @@ import 'package:tea_games/DadosDB/crud.dart';
 import 'Auxiliadores/app_controller.dart';
 
 class JogoMemoria extends StatefulWidget {
-  const JogoMemoria({super.key, required this.title});
-  final String title;
+  const JogoMemoria({super.key});
 
   @override
   State<JogoMemoria> createState() => _JogoMemoriaState();

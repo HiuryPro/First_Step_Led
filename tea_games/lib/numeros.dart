@@ -7,8 +7,7 @@ import 'Auxiliadores/app_controller.dart';
 import 'Auxiliadores/buttonanmation.dart';
 
 class Numeros extends StatefulWidget {
-  const Numeros({super.key, required this.title});
-  final String title;
+  const Numeros({super.key});
 
   @override
   State<Numeros> createState() => _MyHomePageState();
@@ -192,7 +191,6 @@ class _MyHomePageState extends State<Numeros> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
         leading: IconButton(
             onPressed: () async {
               await AppController.instance.backgroundMusic('home');

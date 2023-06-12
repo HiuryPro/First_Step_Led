@@ -49,42 +49,31 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/loginr',
+      initialRoute: '/formas2',
       routes: {
         '/confirmarCadastro': (context) => const ConfirmarCadastro(),
         '/novasenha': (context) => const NovaSenha(),
         '/testes': (context) => const TesteTela(),
         '/home': (context) => const Home(),
-        '/pareamento': (context) =>
-            const JogoPareamento(title: 'Flutter Demo Home Page'),
-        '/memoria': (context) => const JogoMemoria(
-              title: 'Teste',
-            ),
-        '/memoriaFase1': (context) => const JogoMemoriaFase1(title: 'Teste'),
-        '/memoriaFase2': (context) => const JogoMemoriaFase2(title: 'Teste'),
-        '/memoriaFase3': (context) => const JogoMemoriaFase3(title: 'Teste'),
-        '/memoriaFase4': (context) => const JogoMemoriaFase4(title: 'Teste'),
-        '/memoriaFase5': (context) => const JogoMemoriaFase5(title: 'Teste'),
-        '/memoriaFase6': (context) => const JogoMemoriaFase6(title: 'Teste'),
+        '/pareamento': (context) => const JogoPareamento(),
+        '/memoria': (context) => const JogoMemoria(),
+        '/memoriaFase1': (context) => const JogoMemoriaFase1(),
+        '/memoriaFase2': (context) => const JogoMemoriaFase2(),
+        '/memoriaFase3': (context) => const JogoMemoriaFase3(),
+        '/memoriaFase4': (context) => const JogoMemoriaFase4(),
+        '/memoriaFase5': (context) => const JogoMemoriaFase5(),
+        '/memoriaFase6': (context) => const JogoMemoriaFase6(),
         '/fasemenumemoria': (context) => const MenuFaseMemoria(),
-        '/pareamentoFase1': (context) =>
-            const JogoPareamentoFase1(title: 'Teste'),
-        '/pareamentoFase2': (context) =>
-            const JogoPareamentoFase2(title: 'Teste'),
-        '/pareamentoFase3': (context) =>
-            const JogoPareamentoFase3(title: 'Teste'),
-        '/pareamentoFase4': (context) =>
-            const JogoPareamentoFase4(title: 'Teste'),
-        '/pareamentoFase5': (context) =>
-            const JogoPareamentoFase5(title: 'Teste'),
-        '/pareamentoFase6': (context) =>
-            const JogoPareamentoFase6(title: 'Teste'),
+        '/pareamentoFase1': (context) => const JogoPareamentoFase1(),
+        '/pareamentoFase2': (context) => const JogoPareamentoFase2(),
+        '/pareamentoFase3': (context) => const JogoPareamentoFase3(),
+        '/pareamentoFase4': (context) => const JogoPareamentoFase4(),
+        '/pareamentoFase5': (context) => const JogoPareamentoFase5(),
+        '/pareamentoFase6': (context) => const JogoPareamentoFase6(),
         '/fasemenupareamento': (context) => const MenuFasePareamento(),
-        '/jogocalcular': (context) => const JogoCalcular(title: 're'),
-        '/numeros': (context) => const Numeros(
-              title: 're',
-            ),
-        '/alfabeto': (context) => const Alfabeto(title: 're'),
+        '/jogocalcular': (context) => const JogoCalcular(),
+        '/numeros': (context) => const Numeros(),
+        '/alfabeto': (context) => const Alfabeto(),
         '/tts': (context) => const Testetts(),
         '/loginr': (context) => const LoginR(),
         '/cadastror': (context) => const CadastroR(),

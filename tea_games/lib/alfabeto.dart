@@ -7,8 +7,7 @@ import 'Auxiliadores/app_controller.dart';
 import 'Auxiliadores/buttonanmation.dart';
 
 class Alfabeto extends StatefulWidget {
-  const Alfabeto({super.key, required this.title});
-  final String title;
+  const Alfabeto({super.key});
 
   @override
   State<Alfabeto> createState() => _MyHomePageState();
@@ -231,7 +230,6 @@ class _MyHomePageState extends State<Alfabeto> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
         leading: IconButton(
             onPressed: () async {
               await AppController.instance.backgroundMusic('home');
