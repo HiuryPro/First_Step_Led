@@ -236,6 +236,7 @@ class _JogoMemoriaFase5State extends State<JogoMemoriaFase5> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -243,6 +244,8 @@ class _JogoMemoriaFase5State extends State<JogoMemoriaFase5> {
             Navigator.of(context).pushNamed('/fasemenumemoria');
           },
         ),
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.black.withOpacity(0.2),
       ),
       body: Stack(
         children: [

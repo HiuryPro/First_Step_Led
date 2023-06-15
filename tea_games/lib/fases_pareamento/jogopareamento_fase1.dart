@@ -169,6 +169,7 @@ class _MyHomePageState extends State<JogoPareamentoFase1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),

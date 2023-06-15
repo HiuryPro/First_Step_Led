@@ -230,6 +230,7 @@ class _JogoMemoriaFase4State extends State<JogoMemoriaFase4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),

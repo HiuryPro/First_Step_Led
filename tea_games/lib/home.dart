@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
       ]
     ],
     'Menu de Fases do Jogo de Pareamento': [
-      '/fasemenumemoria',
+      '/fasemenupareamento',
       [
         const ImageIcon(
           AssetImage('assets/images/fruitIcon.png'),
@@ -87,6 +87,10 @@ class _HomeState extends State<Home> {
     'Jogo de Animais': [
       '/jogoanimal',
       [const Icon(Icons.pets)]
+    ],
+    'Sobre': [
+      '/sobre',
+      [const Icon(Icons.quiz)]
     ]
   };
 
@@ -169,15 +173,27 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-            onPressed: () async {
-              await AppController.instance.backgroundAudio.stop();
-              Navigator.of(context).pushNamed('/loginr');
-            },
-            icon: const Icon(Icons.arrow_back)),
-      ),
-      body: body(),
-    );
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          leading: IconButton(
+              onPressed: () async {
+                await AppController.instance.backgroundAudio.stop();
+                Navigator.of(context).pushNamed('/loginr');
+              },
+              icon: const Icon(Icons.logout)),
+        ),
+        body: Stack(children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Image.asset(
+              'assets/images/home.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
+          body(),
+        ]));
   }
 }

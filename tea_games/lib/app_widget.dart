@@ -11,6 +11,7 @@ import 'package:tea_games/jogoformas.dart';
 import 'package:tea_games/jogomemoria.dart';
 import 'package:tea_games/Auxiliadores/testetts.dart';
 
+import 'sobre.dart';
 import 'Login_Cadastro/cadastror.dart';
 import 'Login_Cadastro/loginr.dart';
 import 'fases_memorias/jogomemoria_fase1.dart';
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/formas2',
+      initialRoute: '/loginr',
       routes: {
         '/confirmarCadastro': (context) => const ConfirmarCadastro(),
         '/novasenha': (context) => const NovaSenha(),
@@ -79,7 +80,8 @@ class MyApp extends StatelessWidget {
         '/cadastror': (context) => const CadastroR(),
         '/formas': (context) => const JogoFormas(),
         '/formas2': (context) => const JogoFormasAlternativo(),
-        '/jogoanimal': (context) => const Animal()
+        '/jogoanimal': (context) => const Animal(),
+        '/sobre': (context) => const TelaSobre()
       },
     );
   }

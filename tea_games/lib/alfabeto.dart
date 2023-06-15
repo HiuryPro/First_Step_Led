@@ -64,7 +64,7 @@ class _MyHomePageState extends State<Alfabeto> {
     super.initState();
 
     Future.delayed(Duration.zero, () async {
-      await AppController.instance.backgroundMusic('alfabeto');
+      await AppController.instance.backgroundMusic('alfabeto2');
     });
   }
 
