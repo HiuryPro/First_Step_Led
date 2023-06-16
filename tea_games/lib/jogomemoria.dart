@@ -205,8 +205,8 @@ class _JogoMemoriaState extends State<JogoMemoria> {
                         itemCount: cartas.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                                mainAxisSpacing: 5,
-                                crossAxisSpacing: 5,
+                                mainAxisSpacing: 20,
+                                crossAxisSpacing: 20,
                                 crossAxisCount: 10),
                         itemBuilder: (BuildContext context, int index) {
                           return FlipCard(

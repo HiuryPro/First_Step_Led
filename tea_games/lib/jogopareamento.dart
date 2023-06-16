@@ -236,6 +236,7 @@ class _MyHomePageState extends State<JogoPareamento> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         leading: IconButton(
             onPressed: () async {

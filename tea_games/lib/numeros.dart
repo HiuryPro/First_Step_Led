@@ -74,7 +74,7 @@ class _MyHomePageState extends State<Numeros> {
                     }).toList(),
                   ),
                 ),
-                Expanded(child: Text('')),
+                const Expanded(child: Text('')),
                 const SizedBox(
                   height: 10,
                 ),
@@ -161,28 +161,31 @@ class _MyHomePageState extends State<Numeros> {
             )));
   }
 
-  ShrinkButton butaoNumero(String index) {
-    return ShrinkButton(
-      color: numeros[index]!,
-      onPressed: () async {
-        if (clicado == 0) {
-          setState(() {
-            numeros[index] = Colors.green;
-            clicado = 1;
-          });
+  Padding butaoNumero(String index) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 45),
+      child: ShrinkButton(
+        color: numeros[index]!,
+        onPressed: () async {
+          if (clicado == 0) {
+            setState(() {
+              numeros[index] = Colors.green;
+              clicado = 1;
+            });
 
-          await Fala.instance.flutterTts.speak(index);
-          setState(() {
-            numeros[index] = Colors.blue;
-            clicado = 0;
-          });
-        }
-      },
-      shrinkScale: 0.7,
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: numeros[index]),
-        child: Center(child: Text(index)),
+            await Fala.instance.flutterTts.speak(index);
+            setState(() {
+              numeros[index] = Colors.blue;
+              clicado = 0;
+            });
+          }
+        },
+        shrinkScale: 0.7,
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10), color: numeros[index]),
+          child: Center(child: Text(index)),
+        ),
       ),
     );
   }
@@ -190,20 +193,24 @@ class _MyHomePageState extends State<Numeros> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         leading: IconButton(
             onPressed: () async {
               await AppController.instance.backgroundMusic('home');
               Navigator.of(context).pushNamed('/home');
             },
-            icon: const Icon(Icons.arrow_back)),
+            icon: const Icon(Icons.arrow_back, color: Colors.black)),
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
       ),
       body: Stack(
         children: [
           SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Image.asset('assets/images/numeros.jpg')),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Image.asset('assets/images/numeros.jpg', fit: BoxFit.cover),
+          ),
           body(),
         ],
       ),

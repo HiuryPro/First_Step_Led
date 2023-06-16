@@ -132,7 +132,19 @@ class _MyHomePageState extends State<Alfabeto> {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green),
                           onPressed: () async {
+                            String palavraAntes = palavra;
+                            bool temCir = false;
+                            if (palavra.contains('CIR')) {
+                              temCir = true;
+                              palavra =
+                                  palavra.replaceAll(RegExp(r'CIR'), 'SIIR');
+                            }
+
+                            print(palavra);
                             await Fala.instance.flutterTts.speak(palavra);
+                            if (temCir) {
+                              palavra = palavraAntes;
+                            }
                           },
                           child: const Text('Falar Palavra')),
                       const SizedBox(
@@ -176,7 +188,7 @@ class _MyHomePageState extends State<Alfabeto> {
         children: listaA[index].keys.map((value) {
           return Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(right: 10, bottom: 10),
+              padding: const EdgeInsets.only(right: 10, bottom: 10, top: 35),
               child: LayoutBuilder(
                 builder: (context, constraints) {
                   return Draggable(
@@ -229,20 +241,27 @@ class _MyHomePageState extends State<Alfabeto> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         leading: IconButton(
             onPressed: () async {
               await AppController.instance.backgroundMusic('home');
               Navigator.of(context).pushNamed('/home');
             },
-            icon: const Icon(Icons.arrow_back)),
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            )),
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
       ),
       body: Stack(
         children: [
           SizedBox(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              child: Image.asset('assets/images/letras.jpg')),
+              child:
+                  Image.asset('assets/images/letras.jpg', fit: BoxFit.cover)),
           body(),
         ],
       ),
